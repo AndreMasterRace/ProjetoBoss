@@ -845,8 +845,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114895991879037238, guid: f3889d2bd7e4dfd46b8519b27827e9b6,
         type: 2}
-      propertyPath: m_Padding.m_Left
-      value: 5
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114895991879037238, guid: f3889d2bd7e4dfd46b8519b27827e9b6,
+        type: 2}
+      propertyPath: m_ChildControlWidth
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f3889d2bd7e4dfd46b8519b27827e9b6, type: 2}

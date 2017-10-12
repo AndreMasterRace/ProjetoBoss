@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static Transform Transform { get; set; }
-
+    public static int MaxHealth { get; set; }
     public GameObject Focus;
     public GameObject PlayerRotation;
     public int Health;
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float Degrees;
     private float _degreesMove;
     private bool _moveAllowed;
+    private int _totalDamageTaken; //ESTE VALOR TORNA-SE O OFFSET NA FUNCAO DECRESELIFE DO GAMEMANAGER
     private float _distanceToCenter;
     private float xx;
     private float zz;
@@ -32,9 +33,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        MaxHealth = Health;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _rb.sleepThreshold = 0.1f;
+        _totalDamageTaken = 0;
         _centerOfFocus = Focus.transform.position;
         _degreesMove = 0;
         _moveAllowed = true;
@@ -44,7 +47,9 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        GameManager.LifeBarDecrease(damage);
+        GameManager.LifeBarDecrease(damage, _totalDamageTaken);
+        //ISTO SEMPRE DEPOIS DE FAZER LIFEBARDECREASE()
+        _totalDamageTaken += damage;
         print(Health);
         if(Health<=0)
         {
@@ -63,15 +68,11 @@ public class PlayerController : MonoBehaviour
         float timer = 0.0f;
 
         _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
-
         _moveAllowed = false;
-
 
         yield return new WaitForSeconds(0.6f);
         _moveAllowed = true;
-        //PlayerRotation.transform.rotation = _diseredRot;
         _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
-        //PlayerRotation.GetComponent<Rigidbody>().Sleep();
         yield return null;
     }
 
