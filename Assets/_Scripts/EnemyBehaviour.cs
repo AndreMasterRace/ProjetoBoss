@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-
     private int damage;
     public int Health;
     private int _maxHealth;
@@ -41,31 +40,30 @@ public class EnemyBehaviour : MonoBehaviour
         //print(Vector3.Distance(transform.position, PlayerController.Transform.position));
         if (Vector3.Distance(transform.position, PlayerController.Transform.position) < 7.5f)
         {
-
-
             if (Health > (_maxHealth / 2))
             {
                 if (rand >= 50)
                 {
-                    StartCoroutine(Attack2());
+                    StartCoroutine(AuraAttack());
                 }
                 else
                 {
-                    StartCoroutine(Attack3());
+                    StartCoroutine(LungeAttack());
                 }
-                    
+
             }
             else
             {
-                if (rand >= 75)
-                {
-                    StartCoroutine(Attack2());
-                }
-                else
-                {
-                    StartCoroutine(Attack3());
-                }
+                //if (rand >= 75)
+                //{
+                //    StartCoroutine(AuraAttack());
+                //}
+                //else
+                //{
+                //    StartCoroutine(LungeAttack());
+                //}
 
+                StartCoroutine(CombinedAttack());
             }
 
         }
@@ -76,29 +74,29 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 if (rand >= 50)
                 {
-                    StartCoroutine(Attack1());
+                    StartCoroutine(PillarsAttack());
                 }
                 else
                 {
-                    StartCoroutine(Attack3());
+                    StartCoroutine(LungeAttack());
                 }
             }
             else
             {
-                if (rand >= 75)
-                {
-                    StartCoroutine(Attack1());
-                }
-                else
-                {
-                    StartCoroutine(Attack3());
-                }
-
+                //if (rand >= 75)
+                //{
+                //    StartCoroutine(CombinedAttack());
+                //}
+                //else
+                //{
+                //    StartCoroutine(LungeAttack());
+                //}
+                StartCoroutine(CombinedAttack());
             }
         }
     }
 
-    //OBSTACLE SHOWER
+    //Pillars Attack
     public IEnumerator Attack1()
     {
         _animator.SetTrigger("isAttacking1");
@@ -150,7 +148,14 @@ public class EnemyBehaviour : MonoBehaviour
             i++;
         }
 
+        yield return null;
 
+    }
+
+    //OBSTACLE SHOWER
+    public IEnumerator PillarsAttack()
+    {
+        StartCoroutine(Attack1());
         if (_nAttack1 >= Attack1Treshold)
         {
             yield return new WaitForSeconds(0.5f);
@@ -174,7 +179,6 @@ public class EnemyBehaviour : MonoBehaviour
         {
             yield return new WaitForSeconds(3.5f);
         }
-
         foreach (GameObject obstacle in Obstacles)
         {
             obstacle.transform.position = transform.position + new Vector3(30, 30, 30);
@@ -187,7 +191,6 @@ public class EnemyBehaviour : MonoBehaviour
     //AURA ATTACK
     public IEnumerator Attack2()
     {
-
         _animator.SetTrigger("isAttacking2");
 
         while (!_animator.IsInTransition(0))
@@ -199,6 +202,14 @@ public class EnemyBehaviour : MonoBehaviour
         Aura.transform.position = transform.position;
         Aura.GetComponent<Animator>().SetTrigger("isActive");
 
+        yield return null;
+    }
+
+    //AURA ATTACK
+    public IEnumerator AuraAttack()
+    {
+        StartCoroutine(Attack2());
+
         yield return new WaitForSeconds(3f);
 
         Aura.transform.position = transform.position + new Vector3(30, 30, 30);
@@ -207,7 +218,40 @@ public class EnemyBehaviour : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator Attack3()
+    public IEnumerator CombinedAttack()
+    {
+        StartCoroutine(Attack2());
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(Attack1());
+
+        yield return new WaitForSeconds(0.5f);
+        float timer = 0;
+        while (timer < 1)
+        {
+            foreach (GameObject obstacle in Obstacles)
+            {
+                Quaternion diseredRot = Quaternion.Euler(0, ObstacleRotater.transform.eulerAngles.y + 5, 0);
+                ObstacleRotater.transform.rotation = Quaternion.Lerp(ObstacleRotater.transform.rotation, diseredRot, 1 * Time.fixedDeltaTime);
+
+            }
+
+            yield return new WaitForFixedUpdate();
+            timer += 0.02f;
+        }
+        yield return new WaitForSeconds(2.0f);
+
+        foreach (GameObject obstacle in Obstacles)
+        {
+            obstacle.transform.position = transform.position + new Vector3(30, 30, 30);
+        }
+        yield return new WaitForSeconds(1.0f);
+        Aura.transform.position = transform.position + new Vector3(30, 30, 30);
+
+        StartCoroutine(Idle());
+        yield return null;
+    }
+
+    public IEnumerator LungeAttack()
     {
         transform.LookAt(PlayerController.Transform.position);
 
