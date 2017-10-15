@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-
     public static List<GameObject> LifePointList { get; set; }
     public static GameObject[] LifePointArray { get; set; }
+
+    //public Text MiddleCanvasText;
     //public static GameObject LifeBarPanel { get; set; }
     public GameObject LifeBarPanel;
     public Canvas Canvas;
@@ -20,7 +21,6 @@ public class GameManager : MonoBehaviour {
     }
     private void Start()
     {
-
         LifePointList = new List<GameObject>();
 
         LifePointArray = new GameObject[20];
@@ -62,5 +62,11 @@ public class GameManager : MonoBehaviour {
         {
             LifePointList[i].GetComponent<CanvasGroup>().alpha = 0f;
         }
+    }
+
+    //FAZER GAME OVER
+    public static void GameOverScreen()
+    {
+        GameOver.GameOverText.text = "You Died";
     }
 }

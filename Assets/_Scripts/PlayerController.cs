@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public int Health;
     private Animator _animator;
     public Animator SwordAnimator;
+    public static bool Dead { get; set; }
 
     public float RotationSpeed;
     public float Speed;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        Dead = false;
         MaxHealth = Health;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         _animator.SetBool("isDead", true);
+        GameManager.GameOverScreen();
         _moveAllowed = false;
     }
 
