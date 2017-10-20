@@ -37,62 +37,35 @@ public class EnemyBehaviour : MonoBehaviour
     public void ChoseAttack()
     {
         float rand = Random.Range(1, 101);
-        //print(Vector3.Distance(transform.position, PlayerController.Transform.position));
+
         if (Vector3.Distance(transform.position, PlayerController.Transform.position) < 7.5f)
         {
-            if (Health > (_maxHealth / 2))
+            if (rand >= 50)
             {
-                if (rand >= 50)
-                {
+                if (Health > (_maxHealth / 2))
                     StartCoroutine(AuraAttack());
-                }
-                else
-                {
-                    StartCoroutine(LungeAttack());
-                }
-
+                else StartCoroutine(CombinedAttack());
             }
             else
             {
-                //if (rand >= 75)
-                //{
-                //    StartCoroutine(AuraAttack());
-                //}
-                //else
-                //{
-                //    StartCoroutine(LungeAttack());
-                //}
-
-                StartCoroutine(CombinedAttack());
+                StartCoroutine(LungeAttack());
             }
 
         }
         else
         {
 
-            if (Health > (_maxHealth / 2))
+            if (rand >= 50)
             {
-                if (rand >= 50)
-                {
+                if (Health > (_maxHealth / 2))
                     StartCoroutine(PillarsAttack());
-                }
-                else
-                {
-                    StartCoroutine(LungeAttack());
-                }
+                else StartCoroutine(CombinedAttack());
             }
             else
             {
-                //if (rand >= 75)
-                //{
-                //    StartCoroutine(CombinedAttack());
-                //}
-                //else
-                //{
-                //    StartCoroutine(LungeAttack());
-                //}
-                StartCoroutine(CombinedAttack());
+                StartCoroutine(LungeAttack());
             }
+
         }
     }
 
@@ -110,11 +83,6 @@ public class EnemyBehaviour : MonoBehaviour
 
             yield return null;
         }
-        //while (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-        //{
-
-        //    yield return null;
-        //}
 
         //ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
 
@@ -207,6 +175,18 @@ public class EnemyBehaviour : MonoBehaviour
 
     //AURA ATTACK
     public IEnumerator AuraAttack()
+    {
+        StartCoroutine(Attack2());
+
+        yield return new WaitForSeconds(3f);
+
+        Aura.transform.position = transform.position + new Vector3(30, 30, 30);
+
+        StartCoroutine(Idle());
+        yield return null;
+    }
+
+    public IEnumerator Attack4()
     {
         StartCoroutine(Attack2());
 
