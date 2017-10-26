@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     //private Transform _transform;
     private Quaternion _rot;
     private Rigidbody _rb;
-    private Vector3 _centerOfFocus;
+    private Vector3 _centerOfFocus; //FOCUS QUANDO ESTÁ LOCKED ON
     public int Timer;
     public float Degrees;
     private float _degreesMove;
@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _rb.sleepThreshold = 0.1f;
-        _totalDamageTaken = 0;
-        _centerOfFocus = Focus.transform.position;
+        _totalDamageTaken = 0; 
+        _centerOfFocus = Focus.transform.position; 
         _degreesMove = 0;
         _moveAllowed = true;
         _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
