@@ -107,13 +107,13 @@ public class PlayerController : MonoBehaviour
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(KeyBindings.BasicAttackKey))
             {
                 //SwordAnimator.SetBool("isAttackingb", true);
                 SwordAnimator.SetTrigger("isAttacking");
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyBindings.Dash))
             {
 
                 if (moveHorizontal < 0)
@@ -136,34 +136,34 @@ public class PlayerController : MonoBehaviour
 
             else
             {
-                if (Input.GetKey(KeyCode.A))
+                if (Input.GetKey(KeyBindings.MoveLeft))
                 {
                     _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + Degrees, 0);
                     //print("A");
                 }
-                if (Input.GetKeyUp(KeyCode.A))
+                if (Input.GetKeyUp(KeyBindings.MoveLeft))
                 {
                     _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                 }
 
-                if (Input.GetKey(KeyCode.D))
+                if (Input.GetKey(KeyBindings.MoveRight))
                 {
                     _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - Degrees, 0);
                     //print("D");
                 }
-                if (Input.GetKeyUp(KeyCode.D))
+                if (Input.GetKeyUp(KeyBindings.MoveRight))
                 {
                     _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                 }
 
-                if (Input.GetKey(KeyCode.W))
+                if (Input.GetKey(KeyBindings.MoveFoward))
                 {
                     if (_distanceToCenter >= 6)
                         _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * Speed);
                 }
-                if (Input.GetKey(KeyCode.S))
+                if (Input.GetKey(KeyBindings.MoveBackwards))
                 {
                     if (_distanceToCenter <= 9)
                         _rb.MovePosition(transform.position - transform.forward * Time.deltaTime * Speed);
