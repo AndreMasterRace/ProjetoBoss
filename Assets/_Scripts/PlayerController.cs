@@ -157,11 +157,16 @@ public class PlayerController : MonoBehaviour
                     _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                 }
-
+                //NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
                 if (Input.GetKey(KeyBindings.MoveFoward))
                 {
                     if (_distanceToCenter >= 6)
+                    {
+                        //print();
+                        print(transform.position + transform.forward * Time.deltaTime * Speed);
                         _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * Speed);
+                    }
+                        
                 }
                 if (Input.GetKey(KeyBindings.MoveBackwards))
                 {
@@ -169,6 +174,7 @@ public class PlayerController : MonoBehaviour
                         _rb.MovePosition(transform.position - transform.forward * Time.deltaTime * Speed);
 
                 }
+                //
             }
         }
         // transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
