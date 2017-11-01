@@ -58,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1687218344502100}
   m_LocalRotation: {x: 0.5900064, y: 0.024130737, z: -0.4314928, w: 0.68200016}
-  m_LocalPosition: {x: 0.89, y: -0.01, z: 0.72}
+  m_LocalPosition: {x: 1.075, y: -0.031, z: 0.955}
   m_LocalScale: {x: 0.3462019, y: 1.2038119, z: 0.2613626}
   m_Children: []
   m_Father: {fileID: 4599686810805614}
@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1533375202570994}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7, z: 0}
+  m_LocalPosition: {x: 214.1, y: 28, z: 40.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151262104851288}
@@ -218,7 +218,7 @@ MonoBehaviour:
   TargetOffset: {x: 0, y: 1, z: 0}
   SensitivityYaw: 2
   SensitivityPitch: 2
-  MovementSpeed: 0.1
+  MovementSpeed: 0.2
   CameraController: {fileID: 0}
   SwordAnimator: {fileID: 95544736847827386}
   CameraRotationDamping: 5
@@ -242,7 +242,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1533375202570994}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: aa54977acc990874ba3841ae72c5848c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5

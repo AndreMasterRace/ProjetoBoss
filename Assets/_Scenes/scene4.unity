@@ -259,7 +259,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1169653157}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 183, z: 115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -326,7 +326,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4599686810805614, guid: d64734f8b6cc20b4c802ecfacdf490a1, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 11.9
+      value: 40.1
       objectReference: {fileID: 0}
     - target: {fileID: 4599686810805614, guid: d64734f8b6cc20b4c802ecfacdf490a1, type: 2}
       propertyPath: m_LocalRotation.x
@@ -353,6 +353,11 @@ Prefab:
       propertyPath: CameraController
       value: 
       objectReference: {fileID: 1428842501}
+    - target: {fileID: 114815966028815466, guid: d64734f8b6cc20b4c802ecfacdf490a1,
+        type: 2}
+      propertyPath: CameraFollowDamping
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d64734f8b6cc20b4c802ecfacdf490a1, type: 2}
   m_IsPrefabParent: 0

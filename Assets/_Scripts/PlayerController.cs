@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private float xx;
     private float zz;
 
-    Quaternion _diseredRot;
+    Quaternion _desiredRot;
 
 
     private void Start()
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         _centerOfFocus = Focus.transform.position; 
         _degreesMove = 0;
         _moveAllowed = true;
-        _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
+        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
     }
 
     public void TakeDamage(int damage)
@@ -70,12 +70,12 @@ public class PlayerController : MonoBehaviour
     {
         float timer = 0.0f;
 
-        _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
+        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
         _moveAllowed = false;
 
         yield return new WaitForSeconds(0.6f);
         _moveAllowed = true;
-        _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
         yield return null;
     }
 
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         _centerOfFocus = Focus.transform.position;
         transform.LookAt(_centerOfFocus); //OLHAR SEMPRE PARA O CENTRO
         //APLICAR A ROTACAO DESEJADA AO CORPO PLAYEROTATION QUE POR SUA VEZ APLICA ROTACAO NO PLAYER EM TORNO DO INIMIGO
-        PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _diseredRot, RotationSpeed * Time.fixedDeltaTime);
+        PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
         
     }
 
@@ -138,23 +138,23 @@ public class PlayerController : MonoBehaviour
             {
                 if (Input.GetKey(KeyBindings.MoveLeft))
                 {
-                    _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + Degrees, 0);
+                    _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + Degrees, 0);
                     //print("A");
                 }
                 if (Input.GetKeyUp(KeyBindings.MoveLeft))
                 {
-                    _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+                    _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                 }
 
                 if (Input.GetKey(KeyBindings.MoveRight))
                 {
-                    _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - Degrees, 0);
+                    _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - Degrees, 0);
                     //print("D");
                 }
                 if (Input.GetKeyUp(KeyBindings.MoveRight))
                 {
-                    _diseredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+                    _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                 }
                 //NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
