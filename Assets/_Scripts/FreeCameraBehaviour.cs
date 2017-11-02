@@ -35,6 +35,7 @@ public class FreeCameraBehaviour : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GetComponent<Rigidbody>().freezeRotation = true;
         _degrees = 5;
         _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         _angleYsum = 0;
@@ -62,10 +63,11 @@ public class FreeCameraBehaviour : MonoBehaviour
         //}
 
         transform.position += transform.forward * Input.GetAxis("Vertical") * MovementSpeed;
+        CameraController.transform.position = transform.position;
 
-        if (Input.GetAxis("Horizontal")>0)
+        if (Input.GetAxis("Horizontal") > 0)
         {
-            _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y+ _degrees, 0);
+            _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + _degrees, 0);
 
         }
         if (Input.GetAxis("Horizontal") < 0)
@@ -73,7 +75,7 @@ public class FreeCameraBehaviour : MonoBehaviour
             _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y - _degrees, 0);
         }
 
-        if(Input.GetKeyDown(KeyBindings.MoveBackwards))
+        if (Input.GetKeyDown(KeyBindings.MoveBackwards))
         {
             _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + 180, 0);
 
@@ -113,21 +115,21 @@ public class FreeCameraBehaviour : MonoBehaviour
 
         //}
 
-         
 
-            //if (_oldPosition != transform.position)
-            //{
-            //    transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
-            //}
 
-            // cameraRotationTarget *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * SensitivityPitch, Vector3.right);
-            _oldPosition = transform.position;
+        //if (_oldPosition != transform.position)
+        //{
+        //    transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
+        //}
 
-        if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
-        {
-            //SwordAnimator.SetBool("isAttackingb", true);
-            SwordAnimator.SetTrigger("isAttacking");
-        }
+        // cameraRotationTarget *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * SensitivityPitch, Vector3.right);
+        _oldPosition = transform.position;
+
+        //var cameraTarget = CameraController.transform.position + CameraController.transform.rotation * CameraOffset;
+        var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
+        //
+        //FAZ A CAMERA PASSAR DA POSICAO QUE ESTA PARA A POSICAO DESEJADA (cameraTarget)
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.deltaTime);
 
         if (Input.GetKey(KeyBindings.FreeCameraKey))
         {
@@ -135,28 +137,28 @@ public class FreeCameraBehaviour : MonoBehaviour
             _angleY = Input.GetAxis("Mouse Y") * SensitivityPitch;
             _angleYsum += _angleY;
 
-            if (_angleYsum > 10)
+            if (_angleYsum > 20)
             {
                 _angleY = 0;
-                _angleYsum = 10;
+                _angleYsum = 20;
             }
-            if (_angleYsum < -30)
+            if (_angleYsum < -40)
             {
                 _angleY = 0;
-                _angleYsum = -30;
+                _angleYsum = -40;
             }
             //
             //LIMITES DA CAMERA NO EIXO X
             _angleX = Input.GetAxis("Mouse X") * SensitivityYaw;
             _angleXsum += _angleX;
             //print(_angleXsum);
-            if (_angleXsum > 30)
+            if (_angleXsum > 50)
             {
                 print("over");
                 _angleX = 0;
                 _angleXsum = 30;
             }
-            if (_angleXsum < -30)
+            if (_angleXsum < -50)
             {
                 print("under");
                 _angleX = 0;
@@ -172,12 +174,21 @@ public class FreeCameraBehaviour : MonoBehaviour
             //CORPO QUE A CAMERA SEGUE FAZ AS SEGUINTES ROTACOES 
             CameraController.transform.rotation *= Quaternion.AngleAxis(_angleX, Vector3.up);
             CameraController.transform.rotation *= Quaternion.AngleAxis(_angleY, Vector3.left);
+            Vector3 eulerVector = new Vector3(CameraController.transform.rotation.x, CameraController.transform.rotation.y, 0);
+            CameraController.transform.rotation = Quaternion.Euler(eulerVector);
             //CameraController.transform.rotation *= Quaternion.AngleAxis(0, Vector3.back);
             //
 
             //var cameraTarget = transform.position /*transform.rotation*/ + CameraOffset;
             //PARA ONDE A CAMERA PRECISA DE TRANSLADAR
-
+            //cameraRotationTarget = Quaternion.EulerRotation(eulerVector);
+            Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, CameraController.transform.rotation,  10 * Time.fixedDeltaTime);
+            //
+        }
+        else
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.fixedDeltaTime);
+            Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.fixedDeltaTime);
         }
 
         if (Input.GetKeyUp(KeyBindings.FreeCameraKey))
@@ -187,33 +198,32 @@ public class FreeCameraBehaviour : MonoBehaviour
             CameraController.transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
+        
+
+        if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
+        {
+            //SwordAnimator.SetBool("isAttackingb", true);
+            SwordAnimator.SetTrigger("isAttacking");
+        }
 
 
-
-        CameraController.transform.position = transform.position;
-
-        //var cameraTarget = CameraController.transform.position + CameraController.transform.rotation * CameraOffset;
-        var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
-        //
-        //FAZ A CAMERA PASSAR DA POSICAO QUE ESTA PARA A POSICAO DESEJADA (cameraTarget)
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.deltaTime);
         //Camera.main.transform.position = cameraTarget;
         //
 
-        //        lookAt = (CameraController.transform.position + CameraController.transform.rotation * TargetOffset - Camera.main.transform.position).normalized;
+        //lookAt = (CameraController.transform.position + CameraController.transform.rotation * TargetOffset - Camera.main.transform.position).normalized;
 
         //lookAt = (/*transform.position + */transform.rotation * TargetOffset - Camera.main.transform.position).normalized;
 
-        Vector3 eulerVector = new Vector3(CameraController.transform.rotation.x, CameraController.transform.rotation.y, 0);
 
-        lookAt = _forward;
+
+        // lookAt = _forward;
 
         //lookAt = transform.forward;
         //lookAt = transform.rotation * CameraFollowDamping;
         //float fuckingAngle;
         //fuckingAngle = Quaternion.Angle(CameraController.transform.rotation, CameraController.transform.rotation * Quaternion.AngleAxis(_angleX, Vector3.up));
 
-        cameraRotationTarget = Quaternion.LookRotation(lookAt);
+
         // cameraRotationTarget = Quaternion.Euler(0, (transform.rotation.y / 2), 0);
 
         //cameraRotationTarget = Quaternion.EulerRotation(eulerVector);
@@ -221,8 +231,11 @@ public class FreeCameraBehaviour : MonoBehaviour
         //Camera.main.transform.rotation =
         //    Quaternion.Lerp(Camera.main.transform.rotation, cameraRotationTarget, CameraRotationDamping * Time.deltaTime);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.fixedDeltaTime);
-        Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.fixedDeltaTime);
+
+
+
+
+
     }
 
     private void FixedUpdate()

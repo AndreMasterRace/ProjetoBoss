@@ -81,9 +81,10 @@ public class PlayerController : MonoBehaviour
 
     public void GetDistance()
     {
-        xx = transform.position.x > 0 ? transform.position.x : -transform.position.x;
-        zz = transform.position.z > 0 ? transform.position.z : -transform.position.z;
-        _distanceToCenter = Mathf.Sqrt(xx * xx + zz * zz);
+        _distanceToCenter = Vector3.Distance(transform.position, Focus.transform.position);
+        //xx = transform.position.x > 0 ? transform.position.x : -transform.position.x;
+        //zz = transform.position.z > 0 ? transform.position.z : -transform.position.z;
+        //_distanceToCenter = Mathf.Sqrt(xx * xx + zz * zz);
     }
 
     private void FixedUpdate()
@@ -158,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
                 }
                 //NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
-                if (Input.GetKey(KeyBindings.MoveFoward))
+                if (Input.GetKey(KeyBindings.MoveForward))
                 {
                     if (_distanceToCenter >= 6)
                     {
