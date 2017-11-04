@@ -540,28 +540,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4552406485124846, guid: 05fa7f11f6d0f0a42828b8be5745b357,
     type: 2}
   m_PrefabInternal: {fileID: 646686943}
---- !u!1 &518805947 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1216875628739650, guid: 872a525176484ed478c080520ea6cf29,
-    type: 2}
-  m_PrefabInternal: {fileID: 1192279052}
---- !u!95 &518805953
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 518805947}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4481982b3b16dfa4685d81f4da7fe3e1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &519873748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,36 +1460,6 @@ Prefab:
       propertyPath: PlayerRotation
       value: 
       objectReference: {fileID: 1469146160}
-    - target: {fileID: 54339806082125090, guid: 872a525176484ed478c080520ea6cf29,
-        type: 2}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 136296739364305756, guid: 872a525176484ed478c080520ea6cf29,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 136296739364305756, guid: 872a525176484ed478c080520ea6cf29,
-        type: 2}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 23864410598374734, guid: 872a525176484ed478c080520ea6cf29,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114054819662570420, guid: 872a525176484ed478c080520ea6cf29,
-        type: 2}
-      propertyPath: Health
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 54339806082125090, guid: 872a525176484ed478c080520ea6cf29,
-        type: 2}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 872a525176484ed478c080520ea6cf29, type: 2}
   m_IsPrefabParent: 0

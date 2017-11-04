@@ -71,6 +71,7 @@ public class PlayerController2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         GetDistance();
 
         if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
@@ -82,7 +83,11 @@ public class PlayerController2 : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
             {
-                PlayerRotation.transform.position = Focus.transform.position;
+                //COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
+                
+                
+                //PlayerRotation.transform.forward = transform.forward;
+                //
                 if (_lockedOn)
                 {
                     _offseted = false;
@@ -91,6 +96,9 @@ public class PlayerController2 : MonoBehaviour
                 else
                 {
                     _lockedOn = true;
+                    PlayerRotation.transform.position = Focus.transform.position;
+                    transform.position = _oldPosition;
+                    _desiredRot = PlayerRotation.transform.rotation;
                 }
             }
         }
@@ -122,6 +130,12 @@ public class PlayerController2 : MonoBehaviour
 
             transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.deltaTime);
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.deltaTime);
+
+            CameraController.transform.position = transform.position;
+
+            var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
+
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.deltaTime);
             #endregion
         }
 
@@ -158,8 +172,8 @@ public class PlayerController2 : MonoBehaviour
                     print("HERE");
                     // print(_distanceToCenter);
                     // print(transform.forward);
-                    //_rb.MovePosition(transform.position + transform.forward * Time.deltaTime * Speed);
-                   // _target -= transform.forward.normalized;
+                    _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * Speed);
+                    // _target -= transform.forward.normalized;
                 }
 
             }
@@ -168,41 +182,40 @@ public class PlayerController2 : MonoBehaviour
                 if (_distanceToCenter <= 9)
                 {
                     print("THERE");
-                   // _rb.MovePosition(transform.position - transform.forward * Time.deltaTime * Speed);
+                    _rb.MovePosition(transform.position - transform.forward * Time.deltaTime * Speed);
                 }
 
             }
             // Vector3 offset = new Vector3(0, 0, -8);
             transform.LookAt(_centerOfFocus);
-            if (!_offseted)
-            {
-                offset = -(Focus.transform.position - transform.position);
-                _offseted = true;
-                
-                _target = PlayerRotation.transform.position + transform.rotation *    transform.forward ;
-            }
+            //if (!_offseted)
+            //{
+            //    offset = -(Focus.transform.position - transform.position);
+            //    _offseted = true;
+            //  //  _target = PlayerRotation.transform.position + PlayerRotation.transform.rotation * offset;
 
-            //target = PlayerRotation.transform.position + transform.rotation * transform.forward;
+            //    //transform.position = Vector3.Lerp(transform.position, _target, CameraFollowDamping * Time.deltaTime);
 
-            transform.position = Vector3.Lerp(transform.position, _target, CameraFollowDamping * Time.deltaTime);
-
-            //OLHAR SEMPRE PARA O CENTRO
+            //    //_target = Focus.transform.position + Focus.transform.rotation * offset ;
+            //}
 
 
-            //APLICAR A ROTACAO DESEJADA AO CORPO PLAYEROTATION QUE POR SUA VEZ APLICA ROTACAO NO PLAYER EM TORNO DO INIMIGO
-            PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.deltaTime);
 
-            transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.deltaTime);
-            Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.deltaTime);
+            PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
+
+
+            transform.LookAt(Focus.transform.position);
+            Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
+
+            CameraController.transform.position = transform.position;
+
+            var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
+
+            Camera.main.transform.position = cameraTarget;
+
         }
-        CameraController.transform.position = transform.position;
-
-        var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
-
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.deltaTime);
-
-
-
+        
+      
         _oldPosition = transform.position;
     }
 
@@ -214,10 +227,13 @@ public class PlayerController2 : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (_lockedOn)
         {
 
+          
+            //var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
+            //Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.fixedDeltaTime);
         }
-
     }
 }
