@@ -18,6 +18,8 @@ public class PlayerController2 : MonoBehaviour
     public float Speed;
 
     public GameObject Focus;
+    //PARA A TRANSFORM DO PLAYER TER PIVOT NO CENTRO DELE MESMO
+    public GameObject PlayerPivot;
 
     public float CameraRotationDamping;
     public float CameraFollowDamping;
@@ -84,8 +86,8 @@ public class PlayerController2 : MonoBehaviour
             if (Input.GetKeyDown(KeyBindings.LockON))
             {
                 //COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
-                
-                
+
+
                 //PlayerRotation.transform.forward = transform.forward;
                 //
                 if (_lockedOn)
@@ -98,7 +100,13 @@ public class PlayerController2 : MonoBehaviour
                     _lockedOn = true;
                     PlayerRotation.transform.position = Focus.transform.position;
                     transform.position = _oldPosition;
+                    transform.LookAt(_centerOfFocus);
+
                     _desiredRot = PlayerRotation.transform.rotation;
+                    //var cameraTarget = transform.position + transform.rotation * CameraOffset;
+
+                    //Camera.main.transform.position = cameraTarget;
+
                 }
             }
         }
@@ -169,10 +177,11 @@ public class PlayerController2 : MonoBehaviour
             {
                 if (_distanceToCenter >= 6)
                 {
-                    print("HERE");
+                    print(transform.forward);
+                    print(transform.position);
                     // print(_distanceToCenter);
                     // print(transform.forward);
-                    _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * Speed);
+                    _rb.MovePosition(transform.position + (transform.forward + new Vector3(0, 0.1f, 0)) * Time.deltaTime * Speed);
                     // _target -= transform.forward.normalized;
                 }
 
@@ -181,13 +190,13 @@ public class PlayerController2 : MonoBehaviour
             {
                 if (_distanceToCenter <= 9)
                 {
-                    print("THERE");
+                    print(transform.forward);
                     _rb.MovePosition(transform.position - transform.forward * Time.deltaTime * Speed);
                 }
 
             }
             // Vector3 offset = new Vector3(0, 0, -8);
-            transform.LookAt(_centerOfFocus);
+            // transform.LookAt(_centerOfFocus);
             //if (!_offseted)
             //{
             //    offset = -(Focus.transform.position - transform.position);
@@ -207,15 +216,14 @@ public class PlayerController2 : MonoBehaviour
             transform.LookAt(Focus.transform.position);
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
-            CameraController.transform.position = transform.position;
+            //CameraController.transform.position = transform.position;
 
-            var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
+            var cameraTarget = transform.position + transform.rotation * CameraOffset;
 
             Camera.main.transform.position = cameraTarget;
 
         }
-        
-      
+
         _oldPosition = transform.position;
     }
 
@@ -231,7 +239,7 @@ public class PlayerController2 : MonoBehaviour
         if (_lockedOn)
         {
 
-          
+
             //var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
             //Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.fixedDeltaTime);
         }

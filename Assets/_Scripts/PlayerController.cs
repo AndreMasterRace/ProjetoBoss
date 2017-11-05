@@ -164,7 +164,9 @@ public class PlayerController : MonoBehaviour
                     if (_distanceToCenter >= 6)
                     {
                         //print();
-                        print(transform.position + transform.forward * Time.deltaTime * Speed);
+                        print(transform.forward);
+                        print(transform.position);
+                       // print(transform.position + transform.forward * Time.deltaTime * Speed);
                         _rb.MovePosition(transform.position + transform.forward * Time.deltaTime * Speed);
                     }
                         
