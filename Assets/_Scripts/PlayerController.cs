@@ -134,7 +134,6 @@ public class PlayerController : MonoBehaviour
 
                 StartCoroutine(RotateAround());
             }
-
             else
             {
                 if (Input.GetKey(KeyBindings.MoveLeft))

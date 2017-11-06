@@ -4,128 +4,123 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PlayerController2 : MonoBehaviour
 {
+    ///CAMERA VARIABLES
     public Vector3 CameraOffset;
-    public Vector3 TargetOffset;
-    public float SensitivityYaw;
-    public float SensitivityPitch;
-    public float MovementSpeed;
-
     public GameObject CameraController;
-    public Animator SwordAnimator;
-    private Animator _animator;
-    private Rigidbody _rb;
-    public GameObject PlayerRotation;
-    public float Speed;
-
-    public GameObject Focus;
-    //PARA A TRANSFORM DO PLAYER TER PIVOT NO CENTRO DELE MESMO
-    public GameObject PlayerPivot;
-
     public float CameraRotationDamping;
     public float CameraFollowDamping;
-
-    private Quaternion cameraRotationTarget;
-    private Vector3 lookAt; //My Fwd vector
+    public float SensitivityYaw;
+    public float SensitivityPitch;
     private float _angleY;
     private float _angleYsum;
     private float _angleX;
     private float _angleXsum;
-    private Vector3 _direction; //DIRECAO QUE VOU ANDAR
+    ///
+
+    private float _moveHorizontal;
+    private float _moveVertical;
+
+    public Animator SwordAnimator;
+    private Animator _animator;
+    private Rigidbody _rb;
+    public GameObject PlayerRotation;
+    public float MovementSpeed;
+    public float SpeedWhenLockedOn;
+    public GameObject Focus;
+
     private Vector3 _oldPosition;
-    private Vector3 offset;
+
 
     public float RotationSpeed;
 
     private float _distanceToCenter;
-    private float xx;
-    private float zz;
+    private bool _moveAllowed;
 
     public float Degrees;
-
-    private Vector3 _centerOfFocus; //FOCUS QUANDO ESTÁ LOCKED ON
+    ///PARA ONDE VAI OLHAR QUANDO ESTÁ LOCKED ON
+    private Vector3 _centerOfFocus;
+    ///
 
     private Quaternion _desiredRot;
-    //O FOWARD E RIGHT DO PLAYER
-    private Vector3 _forward;
-    private Vector3 _right;
-    private float _degrees;
+
+    private float _degreesMove;
     private bool _lockedOn;
-    private bool _offseted;
-    private Vector3 _target;
-    // Use this for initialization
+
+
     void Start()
     {
-        _offseted = false;
+        _moveHorizontal = 0;
+        _moveVertical = 0;
+        _moveAllowed = true;
         _lockedOn = false;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        ///PARA IMPEDIR ROTACOES MINIMAS PERSISTENTES
         _rb.sleepThreshold = 0.1f;
         _rb.freezeRotation = true;
-        _degrees = 5;
+        ///
+        _degreesMove = 0;
         _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         _angleYsum = 0;
-        _direction = new Vector3(0.0f, 0.0f, 0.0f);
-        _forward = Vector3.forward;
-        _right = Vector3.right;
-        cameraRotationTarget = transform.rotation;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-
+        ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
         GetDistance();
-
+        ///
+        if (_moveAllowed)
+        {
+            _moveHorizontal = Input.GetAxis("Horizontal");
+            _moveVertical = Input.GetAxis("Vertical");
+        }
+        ///ATAQUE
         if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
         {
             SwordAnimator.SetTrigger("isAttacking");
         }
-
-        if (_distanceToCenter > 6 && _distanceToCenter < 9)
+        ///
+        if (_distanceToCenter > 3 && _distanceToCenter < 9)
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
             {
-                //COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
-
-
-                //PlayerRotation.transform.forward = transform.forward;
-                //
                 if (_lockedOn)
                 {
-                    _offseted = false;
                     _lockedOn = false;
                 }
                 else
                 {
                     _lockedOn = true;
+                    ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
                     PlayerRotation.transform.position = Focus.transform.position;
+                    ///COLOCAR O PLAYER DE VOLTA NO SEU LOCAL (POIS MEXER NO PlayeRotation VAI ALTERAR ESTA POSICAO)
                     transform.position = _oldPosition;
+                    ///COLOCAR A transform.forward DO PLAYER A OLHAR PARA O FOCUS 
                     transform.LookAt(_centerOfFocus);
-
+                    ///A _desiredRot TEM DE SER OFFSETED 
                     _desiredRot = PlayerRotation.transform.rotation;
-                    //var cameraTarget = transform.position + transform.rotation * CameraOffset;
-
-                    //Camera.main.transform.position = cameraTarget;
-
+                    ///
                 }
             }
         }
+
 
         if (!_lockedOn)
         {
             #region FREE MOVE
 
-            transform.position += transform.forward * Input.GetAxis("Vertical") * MovementSpeed;
+            transform.position += transform.forward * _moveVertical* MovementSpeed;
 
 
-            if (Input.GetAxis("Horizontal") > 0)
+            if (_moveHorizontal > 0)
             {
-                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + _degrees, 0);
+                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + Degrees, 0);
 
             }
-            if (Input.GetAxis("Horizontal") < 0)
+            if (_moveHorizontal < 0)
             {
-                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y - _degrees, 0);
+                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y - Degrees, 0);
             }
 
             if (Input.GetKeyDown(KeyBindings.MoveBackwards))
@@ -136,8 +131,8 @@ public class PlayerController2 : MonoBehaviour
 
             }
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.deltaTime);
-            Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, 10 * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, CameraRotationDamping * Time.deltaTime);
+            Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, CameraRotationDamping * Time.deltaTime);
 
             CameraController.transform.position = transform.position;
 
@@ -150,99 +145,109 @@ public class PlayerController2 : MonoBehaviour
         if (_lockedOn)
         {
             _centerOfFocus = Focus.transform.position;
-
-            if (Input.GetKey(KeyBindings.MoveLeft))
+            print(_distanceToCenter);
+            if (_moveAllowed)
             {
-                _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + Degrees, 0);
-                //print("A");
-            }
-            if (Input.GetKeyUp(KeyBindings.MoveLeft))
-            {
-                _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
-
-            }
-
-            if (Input.GetKey(KeyBindings.MoveRight))
-            {
-                _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - Degrees, 0);
-                //print("D");
-            }
-            if (Input.GetKeyUp(KeyBindings.MoveRight))
-            {
-                _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
-
-            }
-            //NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
-            if (Input.GetKey(KeyBindings.MoveForward))
-            {
-                if (_distanceToCenter >= 6)
+                if (Input.GetKeyDown(KeyBindings.Dash))
                 {
-                    print(transform.forward);
-                    print(transform.position);
-                    // print(_distanceToCenter);
-                    // print(transform.forward);
-                    _rb.MovePosition(transform.position + (transform.forward + new Vector3(0, 0.1f, 0)) * Time.deltaTime * Speed);
-                    // _target -= transform.forward.normalized;
+
+                    if (_moveHorizontal < 0)
+                    {
+                        _degreesMove = 60;
+
+                        _degreesMove = (9 * _degreesMove) / _distanceToCenter;
+                        print(_degreesMove);
+                    }
+
+                    else if (_moveHorizontal > 0)
+                    {
+                        _degreesMove = -60;
+                        _degreesMove = (9 * _degreesMove) / _distanceToCenter;
+                        //print(DegreesMove);
+                    }
+
+                    StartCoroutine(Dash());
+                }
+                else
+                {
+                    if (Input.GetKey(KeyBindings.MoveLeft))
+                    {
+                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + Degrees, 0);
+                    }
+                    if (Input.GetKeyUp(KeyBindings.MoveLeft))
+                    {
+                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+
+                    }
+
+                    if (Input.GetKey(KeyBindings.MoveRight))
+                    {
+                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - Degrees, 0);
+
+                    }
+                    if (Input.GetKeyUp(KeyBindings.MoveRight))
+                    {
+                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+
+                    }
+                    ///NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
+                    if (Input.GetKey(KeyBindings.MoveForward))
+                    {
+                        if (_distanceToCenter >= 3)
+                        {
+                            transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn;
+                        }
+
+                    }
+                    if (Input.GetKey(KeyBindings.MoveBackwards))
+                    {
+                        if (_distanceToCenter <= 9)
+                        {
+                            transform.position -= transform.forward * Time.deltaTime * SpeedWhenLockedOn;
+                        }
+
+                    }
+                    ///
                 }
 
             }
-            if (Input.GetKey(KeyBindings.MoveBackwards))
-            {
-                if (_distanceToCenter <= 9)
-                {
-                    print(transform.forward);
-                    _rb.MovePosition(transform.position - transform.forward * Time.deltaTime * Speed);
-                }
-
-            }
-            // Vector3 offset = new Vector3(0, 0, -8);
-            // transform.LookAt(_centerOfFocus);
-            //if (!_offseted)
-            //{
-            //    offset = -(Focus.transform.position - transform.position);
-            //    _offseted = true;
-            //  //  _target = PlayerRotation.transform.position + PlayerRotation.transform.rotation * offset;
-
-            //    //transform.position = Vector3.Lerp(transform.position, _target, CameraFollowDamping * Time.deltaTime);
-
-            //    //_target = Focus.transform.position + Focus.transform.rotation * offset ;
-            //}
-
-
-
             PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
 
             transform.LookAt(Focus.transform.position);
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
-            //CameraController.transform.position = transform.position;
+
 
             var cameraTarget = transform.position + transform.rotation * CameraOffset;
 
             Camera.main.transform.position = cameraTarget;
             Camera.main.transform.LookAt(Focus.transform.position);
-
         }
 
-        _oldPosition = transform.position;
-    }
 
+
+        ///MANTER UM REGISTO DA ULTIMA POSICAO 
+        _oldPosition = transform.position;
+        ///
+    }
+    ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
     public void GetDistance()
     {
         _distanceToCenter = Vector3.Distance(transform.position, Focus.transform.position);
-
     }
-
-    private void FixedUpdate()
+    ///
+    ///CORROTINA QUE CONTROLA A DASH DO PLAYER
+    public IEnumerator Dash()
     {
+        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
+        _moveAllowed = false;
 
-        if (_lockedOn)
-        {
-
-
-            //var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
-            //Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.fixedDeltaTime);
-        }
+        yield return new WaitForSeconds(0.6f);
+        _moveAllowed = true;
+        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+        yield return null;
     }
+    ///
+
 }

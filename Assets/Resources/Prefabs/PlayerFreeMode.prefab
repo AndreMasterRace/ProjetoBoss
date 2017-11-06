@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 136367193013957832}
   - component: {fileID: 23448882321697070}
   - component: {fileID: 54208934980224144}
-  - component: {fileID: 114815966028815466}
+  - component: {fileID: 65483010646911008}
+  - component: {fileID: 114210941808885594}
   m_Layer: 0
   m_Name: PlayerFreeMode
   m_TagString: Player
@@ -58,8 +59,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1687218344502100}
   m_LocalRotation: {x: 0.5900064, y: 0.024130737, z: -0.4314928, w: 0.68200016}
-  m_LocalPosition: {x: 1.075, y: -0.031, z: 0.955}
-  m_LocalScale: {x: 0.3462019, y: 1.2038119, z: 0.2613626}
+  m_LocalPosition: {x: 1.074997, y: -0.031000137, z: 0.954998}
+  m_LocalScale: {x: 0.3462021, y: 1.2038143, z: 0.26136294}
   m_Children: []
   m_Father: {fileID: 4599686810805614}
   m_RootOrder: 0
@@ -71,7 +72,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1533375202570994}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 214.1, y: 28, z: 40.1}
+  m_LocalPosition: {x: 23, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151262104851288}
@@ -175,6 +176,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &65483010646911008
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533375202570994}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95544736847827386
 Animator:
   serializedVersion: 3
@@ -192,6 +205,32 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114210941808885594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533375202570994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da86fa3593f47041961ae1a061c95da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraOffset: {x: 0, y: 1.5, z: -8}
+  TargetOffset: {x: 0, y: 1, z: 0}
+  SensitivityYaw: 2
+  SensitivityPitch: 2
+  MovementSpeed: 0.2
+  CameraController: {fileID: 0}
+  SwordAnimator: {fileID: 95544736847827386}
+  PlayerRotation: {fileID: 0}
+  Speed: 5
+  Focus: {fileID: 0}
+  PlayerPivot: {fileID: 0}
+  CameraRotationDamping: 5
+  CameraFollowDamping: 5
+  RotationSpeed: 5
+  Degrees: 12
 --- !u!114 &114296173882359576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,26 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d9596292a1a2c40abe335e1f29444e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114815966028815466
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1533375202570994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf8f1b39579dda4ea4eb65ab0086023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraOffset: {x: 0, y: 1.5, z: -8}
-  TargetOffset: {x: 0, y: 1, z: 0}
-  SensitivityYaw: 2
-  SensitivityPitch: 2
-  MovementSpeed: 0.2
-  CameraController: {fileID: 0}
-  SwordAnimator: {fileID: 95544736847827386}
-  CameraRotationDamping: 5
-  CameraFollowDamping: 5
 --- !u!136 &136277047711046596
 CapsuleCollider:
   m_ObjectHideFlags: 1
