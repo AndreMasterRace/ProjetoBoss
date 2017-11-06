@@ -221,6 +221,7 @@ public class PlayerController2 : MonoBehaviour
             var cameraTarget = transform.position + transform.rotation * CameraOffset;
 
             Camera.main.transform.position = cameraTarget;
+            Camera.main.transform.LookAt(Focus.transform.position);
 
         }
 
