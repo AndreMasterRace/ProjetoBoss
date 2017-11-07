@@ -17,6 +17,11 @@ public class PlayerController2 : MonoBehaviour
     private float _angleXsum;
     ///
 
+    public static Transform Transform { get; set; }
+    public static int MaxHealth { get; set; }
+
+    public int Health;
+
     private float _moveHorizontal;
     private float _moveVertical;
 
@@ -45,10 +50,15 @@ public class PlayerController2 : MonoBehaviour
 
     private float _degreesMove;
     private bool _lockedOn;
-
+    ///QUAO PERTO E QUAO LONGE POSSO ESTAR DO INIMIGO EM LOCKON
+    public float ProximityTreshold;
+    public float RemotenessTreshold;
+    ///
 
     void Start()
     {
+        Transform = transform;
+        MaxHealth = Health;
         _moveHorizontal = 0;
         _moveVertical = 0;
         _moveAllowed = true;
@@ -81,7 +91,7 @@ public class PlayerController2 : MonoBehaviour
             SwordAnimator.SetTrigger("isAttacking");
         }
         ///
-        if (_distanceToCenter > 3 && _distanceToCenter < 9)
+        if (_distanceToCenter > ProximityTreshold && _distanceToCenter < RemotenessTreshold)
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
             {
@@ -155,14 +165,14 @@ public class PlayerController2 : MonoBehaviour
                     {
                         _degreesMove = 60;
 
-                        _degreesMove = (9 * _degreesMove) / _distanceToCenter;
-                        print(_degreesMove);
+                        _degreesMove = (RemotenessTreshold * _degreesMove) / _distanceToCenter;
+                        //print(_degreesMove);
                     }
 
                     else if (_moveHorizontal > 0)
                     {
                         _degreesMove = -60;
-                        _degreesMove = (9 * _degreesMove) / _distanceToCenter;
+                        _degreesMove = (RemotenessTreshold * _degreesMove) / _distanceToCenter;
                         //print(DegreesMove);
                     }
 
@@ -193,15 +203,19 @@ public class PlayerController2 : MonoBehaviour
                     ///NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
                     if (Input.GetKey(KeyBindings.MoveForward))
                     {
-                        if (_distanceToCenter >= 3)
+                        if (_distanceToCenter > ProximityTreshold)
                         {
-                            transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn;
-                        }
+                            if (Vector3.Magnitude(transform.position + transform.forward * Time.deltaTime * SpeedWhenLockedOn)>ProximityTreshold)
+                            {
 
+                                transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn;
+                            }
+                        }
+                    
                     }
                     if (Input.GetKey(KeyBindings.MoveBackwards))
                     {
-                        if (_distanceToCenter <= 9)
+                        if (_distanceToCenter < RemotenessTreshold)
                         {
                             transform.position -= transform.forward * Time.deltaTime * SpeedWhenLockedOn;
                         }
@@ -210,23 +224,21 @@ public class PlayerController2 : MonoBehaviour
                     ///
                 }
 
+
             }
             PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
 
             transform.LookAt(Focus.transform.position);
+
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
-
-
-
             var cameraTarget = transform.position + transform.rotation * CameraOffset;
-
             Camera.main.transform.position = cameraTarget;
             Camera.main.transform.LookAt(Focus.transform.position);
         }
 
-
-
+        Transform = transform;
+        
         ///MANTER UM REGISTO DA ULTIMA POSICAO 
         _oldPosition = transform.position;
         ///
