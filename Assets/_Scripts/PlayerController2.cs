@@ -16,25 +16,30 @@ public class PlayerController2 : MonoBehaviour
     private float _angleX;
     private float _angleXsum;
     ///
-
     public static Transform Transform { get; set; }
     public static int MaxHealth { get; set; }
 
-    public int Health;
-
-    private float _moveHorizontal;
-    private float _moveVertical;
-
+    ///COMPONENTS/OBJECTS
     public Animator SwordAnimator;
     private Animator _animator;
     private Rigidbody _rb;
     public GameObject PlayerRotation;
-    public float MovementSpeed;
-    public float SpeedWhenLockedOn;
     public GameObject Focus;
+    ///INPUT
+    private float _moveHorizontal;
+    private float _moveVertical;
+    ///
 
+
+    public int Health;
+
+    
+
+   
     private Vector3 _oldPosition;
 
+    public float MovementSpeed;
+    public float SpeedWhenLockedOn;
 
     public float RotationSpeed;
 
@@ -50,6 +55,8 @@ public class PlayerController2 : MonoBehaviour
 
     private float _degreesMove;
     private bool _lockedOn;
+    [HideInInspector]
+    public bool IsInteracting;
     ///QUAO PERTO E QUAO LONGE POSSO ESTAR DO INIMIGO EM LOCKON
     public float ProximityTreshold;
     public float RemotenessTreshold;
@@ -62,9 +69,11 @@ public class PlayerController2 : MonoBehaviour
         _moveHorizontal = 0;
         _moveVertical = 0;
         _moveAllowed = true;
+        IsInteracting = false;
         _lockedOn = false;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        CombatGUIController.InCombat = false;
         ///PARA IMPEDIR ROTACOES MINIMAS PERSISTENTES
         _rb.sleepThreshold = 0.1f;
         _rb.freezeRotation = true;
@@ -91,6 +100,12 @@ public class PlayerController2 : MonoBehaviour
             SwordAnimator.SetTrigger("isAttacking");
         }
         ///
+        ///INTERAGIR COM OBJETOS
+        if(Input.GetKeyDown(KeyBindings.Interact))
+        {
+            StartCoroutine(Interact());
+        }
+        ///
         if (_distanceToCenter > ProximityTreshold && _distanceToCenter < RemotenessTreshold)
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
@@ -98,9 +113,11 @@ public class PlayerController2 : MonoBehaviour
                 if (_lockedOn)
                 {
                     _lockedOn = false;
+                    CombatGUIController.InCombat = false;
                 }
                 else
                 {
+                    CombatGUIController.InCombat = true;
                     _lockedOn = true;
                     ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
                     PlayerRotation.transform.position = Focus.transform.position;
@@ -155,7 +172,7 @@ public class PlayerController2 : MonoBehaviour
         if (_lockedOn)
         {
             _centerOfFocus = Focus.transform.position;
-            print(_distanceToCenter);
+            //print(_distanceToCenter);
             if (_moveAllowed)
             {
                 if (Input.GetKeyDown(KeyBindings.Dash))
@@ -237,6 +254,7 @@ public class PlayerController2 : MonoBehaviour
             Camera.main.transform.LookAt(Focus.transform.position);
         }
 
+
         Transform = transform;
         
         ///MANTER UM REGISTO DA ULTIMA POSICAO 
@@ -261,5 +279,15 @@ public class PlayerController2 : MonoBehaviour
         yield return null;
     }
     ///
+    public IEnumerator Interact()
+    {
+        IsInteracting = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        IsInteracting = false;
+
+        yield return null;
+    }
 
 }

@@ -12,6 +12,7 @@ public class KeyBindings : MonoBehaviour {
     public static KeyCode Dash = KeyCode.Space;
     public static KeyCode FreeCameraKey = KeyCode.F;
     public static KeyCode LockON = KeyCode.Tab;
+    public static KeyCode Interact = KeyCode.E;
     //
     //RATO
     public static int BasicAttackKey = 0;

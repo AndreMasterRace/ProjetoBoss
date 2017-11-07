@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class CombatGUIController : MonoBehaviour {
 
+    public static bool InCombat { get; set; }
+
+
     private void Update()
     {
-        transform.LookAt(PlayerController2.Transform);
+        if(InCombat)
+        {
+            transform.LookAt(PlayerController2.Transform);
+        }
+        
     }
 }
