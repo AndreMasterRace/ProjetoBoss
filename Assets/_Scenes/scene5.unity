@@ -774,6 +774,16 @@ Prefab:
       propertyPath: Focus
       value: 
       objectReference: {fileID: 1631783208}
+    - target: {fileID: 114210941808885594, guid: d64734f8b6cc20b4c802ecfacdf490a1,
+        type: 2}
+      propertyPath: ProximityTreshold
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114210941808885594, guid: d64734f8b6cc20b4c802ecfacdf490a1,
+        type: 2}
+      propertyPath: TurnDegrees
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d64734f8b6cc20b4c802ecfacdf490a1, type: 2}
   m_IsPrefabParent: 0
@@ -948,20 +958,20 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 224873887605318052, guid: 97a2d0820526d804ab3e76bf2a857211,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -216.19998
+      objectReference: {fileID: 0}
+    - target: {fileID: 224873887605318052, guid: 97a2d0820526d804ab3e76bf2a857211,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 606.0247
+      objectReference: {fileID: 0}
     - target: {fileID: 224968478987554120, guid: 97a2d0820526d804ab3e76bf2a857211,
         type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224873887605318052, guid: 97a2d0820526d804ab3e76bf2a857211,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -157.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 224873887605318052, guid: 97a2d0820526d804ab3e76bf2a857211,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 527.5423
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97a2d0820526d804ab3e76bf2a857211, type: 2}

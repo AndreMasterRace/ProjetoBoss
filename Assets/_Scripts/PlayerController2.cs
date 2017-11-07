@@ -6,7 +6,7 @@ public class PlayerController2 : MonoBehaviour
 {
     ///CAMERA VARIABLES
     public Vector3 CameraOffset;
-    public GameObject CameraController;
+    //public GameObject CameraController;
     public float CameraRotationDamping;
     public float CameraFollowDamping;
     public float SensitivityYaw;
@@ -16,38 +16,47 @@ public class PlayerController2 : MonoBehaviour
     private float _angleX;
     private float _angleXsum;
     ///
-    public static Transform Transform { get; set; }
-    public static int MaxHealth { get; set; }
-
-    ///COMPONENTS/OBJECTS
-    public Animator SwordAnimator;
-    private Animator _animator;
-    private Rigidbody _rb;
-    public GameObject PlayerRotation;
-    public GameObject Focus;
     ///INPUT
     private float _moveHorizontal;
     private float _moveVertical;
     ///
+    ///STATIC VARIABLES
+    public static Transform Transform { get; set; }
+    public static int MaxHealth { get; set; }
+    ///
+    ///COMPONENTS & OBJECTS
+    private Animator _animator;
+    private Rigidbody _rb;
+    public Animator SwordAnimator;
+    public GameObject PlayerRotation;
+    public GameObject Focus;
+    /// 
+    ///VELOCIDADE QUANDO FREE CAMERA
+    public float MovementSpeed;
+    ///GRAUS QUE VIRO A CADA INPUT DE ESQUERDA/DIREITA EM FREE CAMERA
+    public float TurnDegrees;
+    ///VELOCIDADE PARA FRENTE/TRAS QUANDO LOCK ON
+    public float SpeedWhenLockedOn;
+    ///VELOCIDADE PARA ESQUERDA/DIREITA QUANDO LOCK ON
+    public float RotationSpeed;
 
 
     public int Health;
+    
+
+
+
+    private Vector3 _oldPosition;
 
     
 
-   
-    private Vector3 _oldPosition;
-
-    public float MovementSpeed;
-    public float SpeedWhenLockedOn;
-
-    public float RotationSpeed;
+    
 
     private float _distanceToCenter;
     private bool _moveAllowed;
 
-    public float Degrees;
-    ///PARA ONDE VAI OLHAR QUANDO ESTÁ LOCKED ON
+    
+    ///PARA ONDE O PLAYER VAI OLHAR QUANDO ESTÁ LOCKED ON
     private Vector3 _centerOfFocus;
     ///
 
@@ -99,9 +108,17 @@ public class PlayerController2 : MonoBehaviour
         {
             SwordAnimator.SetTrigger("isAttacking");
         }
+        ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
+        if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
+        {
+            if(Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
+            {
+                _lockedOn = false;
+            }
+        }
         ///
         ///INTERAGIR COM OBJETOS
-        if(Input.GetKeyDown(KeyBindings.Interact))
+        if (Input.GetKeyDown(KeyBindings.Interact))
         {
             StartCoroutine(Interact());
         }
@@ -136,34 +153,35 @@ public class PlayerController2 : MonoBehaviour
         if (!_lockedOn)
         {
             #region FREE MOVE
-
+            ///MOVER PLAYER PARA FRENTE
             transform.position += transform.forward * _moveVertical* MovementSpeed;
-
-
+            ///
+            ///RODAR PLAYER PARA ESQUERDA/DIREITA
             if (_moveHorizontal > 0)
             {
-                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + Degrees, 0);
+                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + TurnDegrees, 0);
 
             }
             if (_moveHorizontal < 0)
             {
-                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y - Degrees, 0);
+                _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y - TurnDegrees, 0);
             }
-
+            ///
+            ///VIRAR PLAYER PARA TRAS
             if (Input.GetKeyDown(KeyBindings.MoveBackwards))
             {
                 _desiredRot = Quaternion.Euler(0, transform.eulerAngles.y + 180, 0);
-
                 transform.rotation = _desiredRot;
-
             }
-
+            ///
+            ///APLICAR A ROTACAO ANTES ESPECIFICADA
             transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, CameraRotationDamping * Time.deltaTime);
+            ///
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, CameraRotationDamping * Time.deltaTime);
 
-            CameraController.transform.position = transform.position;
+          
 
-            var cameraTarget = CameraController.transform.position + transform.rotation * CameraOffset;
+            var cameraTarget = transform.position + transform.rotation * CameraOffset;
 
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, cameraTarget, CameraFollowDamping * Time.deltaTime);
             #endregion
@@ -199,7 +217,7 @@ public class PlayerController2 : MonoBehaviour
                 {
                     if (Input.GetKey(KeyBindings.MoveLeft))
                     {
-                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + Degrees, 0);
+                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + TurnDegrees, 0);
                     }
                     if (Input.GetKeyUp(KeyBindings.MoveLeft))
                     {
@@ -209,7 +227,7 @@ public class PlayerController2 : MonoBehaviour
 
                     if (Input.GetKey(KeyBindings.MoveRight))
                     {
-                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - Degrees, 0);
+                        _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - TurnDegrees, 0);
 
                     }
                     if (Input.GetKeyUp(KeyBindings.MoveRight))
@@ -254,9 +272,9 @@ public class PlayerController2 : MonoBehaviour
             Camera.main.transform.LookAt(Focus.transform.position);
         }
 
-
+        ///ATUALIZAR A TRANSFORM ESTATICA
         Transform = transform;
-        
+        ///
         ///MANTER UM REGISTO DA ULTIMA POSICAO 
         _oldPosition = transform.position;
         ///
@@ -279,6 +297,7 @@ public class PlayerController2 : MonoBehaviour
         yield return null;
     }
     ///
+    ///CORROTINA QUE CONTROLA A JANELA DE TEMPO EM QUE O OUTPUT DE INTERACAO ESTÁ ATIVADO
     public IEnumerator Interact()
     {
         IsInteracting = true;
@@ -289,5 +308,6 @@ public class PlayerController2 : MonoBehaviour
 
         yield return null;
     }
+    ///
 
 }

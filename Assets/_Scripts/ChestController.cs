@@ -14,7 +14,7 @@ public class ChestController : MonoBehaviour
     private void Awake()
     {
         CameraOffset = new Vector3(0, 1.5f, -4);
-        CameraFollowDamping = 5f;
+        CameraFollowDamping = 2f;
         CameraRotationDamping = 5f;
         appeared = false;
         _anim = GetComponent<Animator>();
@@ -22,14 +22,8 @@ public class ChestController : MonoBehaviour
 
     public void Appear()
     {
-        PlayerEnabler.IsEnabled = false;
-        //GetComponent<MeshRenderer>().enabled = true;
-        //GetComponent<BoxCollider>().enabled = true;
-        //GetComponent<CapsuleCollider>().enabled = true;
-        //GetComponentInChildren<MeshRenderer>().enabled = true;
-        //GetComponentInChildren<BoxCollider>().enabled = true;
-        transform.position = new Vector3(128, 23.9f, 59);
-        appeared = true;
+
+        //PlayerEnabler.IsEnabled = false;
         StartCoroutine(CameraPan());
         //Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, , CameraRotationDamping * Time.deltaTime);
 
@@ -74,8 +68,11 @@ public class ChestController : MonoBehaviour
 
     public IEnumerator CameraPan()
     {
-
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1f);
+        PlayerEnabler.IsEnabled = false;
+        transform.position = new Vector3(128, 23.9f, 59);
+        appeared = true;
+        yield return new WaitForSeconds(3.5f);
         appeared = false;
         PlayerEnabler.IsEnabled = true;
         yield return null;
