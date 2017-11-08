@@ -29,7 +29,6 @@ public class PlayerController2 : MonoBehaviour
     private Rigidbody _rb;
     public Animator SwordAnimator;
     public GameObject PlayerRotation;
-    //public GameObject Focus;
     private EnemyMinionBehaviour Focus;
     /// 
     ///VELOCIDADE QUANDO FREE CAMERA
@@ -69,7 +68,6 @@ public class PlayerController2 : MonoBehaviour
     
     void Start()
     {
-      //  Focus = new EnemyMinionBehaviour();
         Transform = transform;
         MaxHealth = Health;
         _moveHorizontal = 0;
@@ -120,6 +118,7 @@ public class PlayerController2 : MonoBehaviour
             StartCoroutine(Interact());
         }
         ///
+        ///FAZER LOCK ON
         if (LockOnController.TheresEnemiesOnSight)
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
@@ -128,6 +127,9 @@ public class PlayerController2 : MonoBehaviour
                 {
                     _lockedOn = false;
                     CombatGUIController.InCombat = false;
+                    ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
+                    _desiredRot = transform.rotation;
+                    ///
                 }
                 else
                 {
@@ -138,15 +140,15 @@ public class PlayerController2 : MonoBehaviour
                     PlayerRotation.transform.position = Focus.transform.position;
                     ///COLOCAR O PLAYER DE VOLTA NO SEU LOCAL (POIS MEXER NO PlayeRotation VAI ALTERAR ESTA POSICAO)
                     transform.position = _oldPosition;
-                    ///COLOCAR A transform.forward DO PLAYER A OLHAR PARA O FOCUS 
+                    ///COLOCAR O PLAYER A OLHAR PARA O INIMIGO
                     transform.LookAt(_centerOfFocus);
-                    ///A _desiredRot TEM DE SER OFFSETED 
+                    ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
                     _desiredRot = PlayerRotation.transform.rotation;
                     ///
                 }
             }
         }
-
+        ///
 
         if (!_lockedOn)
         {

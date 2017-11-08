@@ -382,6 +382,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1021225916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1021225918}
+  - component: {fileID: 1021225917}
+  m_Layer: 0
+  m_Name: LevelEventsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1021225917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021225916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa88acf3d63ec1840b3288380361e917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChestManager: {fileID: 1879526403}
+--- !u!4 &1021225918
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1021225916}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 163.53107, y: -6.5625, z: 54.852642}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1031716925 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1001165363540118, guid: d63585c1114b1fc43b6bb9f612a69376,
+    type: 2}
+  m_PrefabInternal: {fileID: 1228655618}
+--- !u!135 &1031716926
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1031716925}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1169653157
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +553,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4361263610660726, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4361263610660726, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
       propertyPath: m_LocalRotation.z
@@ -503,13 +561,33 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4361263610660726, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4361263610660726, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4361263610660726, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114267774816427938, guid: d63585c1114b1fc43b6bb9f612a69376,
+        type: 2}
+      propertyPath: SpawnPosition.x
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 114267774816427938, guid: d63585c1114b1fc43b6bb9f612a69376,
+        type: 2}
+      propertyPath: SpawnPosition.y
+      value: 23.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 114267774816427938, guid: d63585c1114b1fc43b6bb9f612a69376,
+        type: 2}
+      propertyPath: SpawnPosition.z
+      value: 52
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 136795658595883682, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: d63585c1114b1fc43b6bb9f612a69376, type: 2}
   m_IsPrefabParent: 0
 --- !u!223 &1289184085 stripped
@@ -544,7 +622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d0b13688e69764386d5eb583f29622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Chest: {fileID: 0}
   LifeBarPanel: {fileID: 1349765102}
   Canvas: {fileID: 1289184085}
 --- !u!4 &1318090759
@@ -948,6 +1025,11 @@ Prefab:
       propertyPath: m_Name
       value: EnemyMinion (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114174411453648964, guid: 343a85cd673cf684c985cd39fa45dcd9,
+        type: 2}
+      propertyPath: LevelEventsManager
+      value: 
+      objectReference: {fileID: 1021225917}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 343a85cd673cf684c985cd39fa45dcd9, type: 2}
   m_IsPrefabParent: 0
@@ -1079,9 +1161,9 @@ Prefab:
       objectReference: {fileID: 364346297}
     - target: {fileID: 114174411453648964, guid: 343a85cd673cf684c985cd39fa45dcd9,
         type: 2}
-      propertyPath: Chest
+      propertyPath: LevelEventsManager
       value: 
-      objectReference: {fileID: 1879526403}
+      objectReference: {fileID: 1021225917}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 343a85cd673cf684c985cd39fa45dcd9, type: 2}
   m_IsPrefabParent: 0

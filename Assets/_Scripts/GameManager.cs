@@ -8,15 +8,14 @@ public class GameManager : MonoBehaviour {
 
     public static List<GameObject> LifePointList { get; set; }
     public static GameObject[] LifePointArray { get; set; }
-
-    public ChestController Chest;
-
     public GameObject LifeBarPanel;
     public Canvas Canvas;
 
     private void Awake()
     {
         PlayerEnabler.IsEnabled = true;
+        LevelEventsManager.DeadEnemies = 0;
+        LevelEventsManager.AmountForEvent = 2;
 
     }
     private void Start()

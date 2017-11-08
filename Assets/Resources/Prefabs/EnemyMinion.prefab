@@ -132,8 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   DamageText: {fileID: 0}
-  Chest: {fileID: 0}
   IsDead: 0
+  LevelEventsManager: {fileID: 0}
 --- !u!136 &136259175550733138
 CapsuleCollider:
   m_ObjectHideFlags: 1

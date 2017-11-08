@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestController : MonoBehaviour
+public class ChestManager : MonoBehaviour
 {
     private Animator _anim;
     private Vector3 CameraOffset;
     private float CameraRotationDamping;
     private float CameraFollowDamping;
+    public Vector3 SpawnPosition;
 
     private bool appeared;
 
@@ -20,13 +21,9 @@ public class ChestController : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
 
-    public void Appear()
+    public void Spawn()
     {
-
-        //PlayerEnabler.IsEnabled = false;
         StartCoroutine(CameraPan());
-        //Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, , CameraRotationDamping * Time.deltaTime);
-
     }
 
     private void OnTriggerStay(Collider other)
@@ -70,7 +67,8 @@ public class ChestController : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         PlayerEnabler.IsEnabled = false;
-        transform.position = new Vector3(128, 23.9f, 59);
+        //transform.position = new Vector3(128, 23.9f, 59);
+        transform.position = SpawnPosition;
         appeared = true;
         yield return new WaitForSeconds(3.5f);
         appeared = false;

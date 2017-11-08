@@ -6,22 +6,18 @@ using UnityEngine.UI;
 
 public class EnemyMinionBehaviour : MonoBehaviour
 {
-  // public static Transform Transform { get; set; }
     private int damage;
     private float _damageAggregate;
     public int Health;
     private int _maxHealth;
     private Animator _animator;
     public Text DamageText;
-    public ChestController Chest;
     [HideInInspector]
     public bool IsDead;
+    public LevelEventsManager LevelEventsManager;
 
-
-   
     void Start()
     {
-   //     TransformList.Add(Guid.NewGuid(), transform);
         IsDead = false;
         _damageAggregate = 0;
         _maxHealth = Health;
@@ -30,12 +26,12 @@ public class EnemyMinionBehaviour : MonoBehaviour
 
     private void Update()
     {
-      //  Transform = transform;
+        //  Transform = transform;
     }
     public IEnumerator ShowDamage()
     {
         DamageText.text = damage.ToString();
-     
+
         yield return new WaitForSeconds(0.05f);
         _damageAggregate += damage;
 
@@ -47,14 +43,17 @@ public class EnemyMinionBehaviour : MonoBehaviour
     public void Die()
     {
         _animator.SetBool("isDead", true);
+        LevelEventsManager.DeadEnemies++;
+        print(LevelEventsManager.DeadEnemies);
+        LevelEventsManager.UpdateEvent();
+
         IsDead = true;
-        Chest.Appear();
     }
 
-    //LEVAR DANO
+    ///LEVAR DANO
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Weapon")
+        if (other.tag == "Weapon" && !IsDead)
         {
             damage = other.GetComponent<WeaponBehaviour>().DamageCalc();
             Health -= damage;
@@ -65,4 +64,5 @@ public class EnemyMinionBehaviour : MonoBehaviour
             }
         }
     }
+    ///
 }
