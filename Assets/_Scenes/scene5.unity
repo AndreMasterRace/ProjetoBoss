@@ -761,11 +761,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114210941808885594, guid: d64734f8b6cc20b4c802ecfacdf490a1,
         type: 2}
-      propertyPath: CameraController
-      value: 
-      objectReference: {fileID: 1428842501}
-    - target: {fileID: 114210941808885594, guid: d64734f8b6cc20b4c802ecfacdf490a1,
-        type: 2}
       propertyPath: PlayerRotation
       value: 
       objectReference: {fileID: 1526775860}
@@ -774,16 +769,6 @@ Prefab:
       propertyPath: Focus
       value: 
       objectReference: {fileID: 1631783208}
-    - target: {fileID: 114210941808885594, guid: d64734f8b6cc20b4c802ecfacdf490a1,
-        type: 2}
-      propertyPath: ProximityTreshold
-      value: 2.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114210941808885594, guid: d64734f8b6cc20b4c802ecfacdf490a1,
-        type: 2}
-      propertyPath: TurnDegrees
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d64734f8b6cc20b4c802ecfacdf490a1, type: 2}
   m_IsPrefabParent: 0
@@ -871,12 +856,12 @@ Prefab:
     - target: {fileID: 224525646092494394, guid: 97a2d0820526d804ab3e76bf2a857211,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 241.5
+      value: 266
       objectReference: {fileID: 0}
     - target: {fileID: 224525646092494394, guid: 97a2d0820526d804ab3e76bf2a857211,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 151
+      value: 149.5
       objectReference: {fileID: 0}
     - target: {fileID: 224525646092494394, guid: 97a2d0820526d804ab3e76bf2a857211,
         type: 2}

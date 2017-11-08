@@ -29,7 +29,8 @@ public class PlayerController2 : MonoBehaviour
     private Rigidbody _rb;
     public Animator SwordAnimator;
     public GameObject PlayerRotation;
-    public GameObject Focus;
+    //public GameObject Focus;
+    private GameObject Focus;
     /// 
     ///VELOCIDADE QUANDO FREE CAMERA
     public float MovementSpeed;
@@ -43,14 +44,7 @@ public class PlayerController2 : MonoBehaviour
 
     public int Health;
     
-
-
-
     private Vector3 _oldPosition;
-
-    
-
-    
 
     private float _distanceToCenter;
     private bool _moveAllowed;
@@ -59,6 +53,8 @@ public class PlayerController2 : MonoBehaviour
     ///PARA ONDE O PLAYER VAI OLHAR QUANDO ESTÁ LOCKED ON
     private Vector3 _centerOfFocus;
     ///
+
+    public LockOnController LockOnController;
 
     private Quaternion _desiredRot;
 
@@ -70,9 +66,10 @@ public class PlayerController2 : MonoBehaviour
     public float ProximityTreshold;
     public float RemotenessTreshold;
     ///
-
+    
     void Start()
     {
+        Focus = new GameObject();
         Transform = transform;
         MaxHealth = Health;
         _moveHorizontal = 0;
@@ -92,7 +89,6 @@ public class PlayerController2 : MonoBehaviour
         _angleYsum = 0;
     }
 
-
     void Update()
     {
         ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
@@ -111,10 +107,10 @@ public class PlayerController2 : MonoBehaviour
         ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
         if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
         {
-            if(Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
-            {
-                _lockedOn = false;
-            }
+            //if(Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
+            //{
+            //    _lockedOn = false;
+            //}
         }
         ///
         ///INTERAGIR COM OBJETOS
@@ -123,6 +119,7 @@ public class PlayerController2 : MonoBehaviour
             StartCoroutine(Interact());
         }
         ///
+        Focus = LockOnController.CheckCloser();
         if (_distanceToCenter > ProximityTreshold && _distanceToCenter < RemotenessTreshold)
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
@@ -134,6 +131,7 @@ public class PlayerController2 : MonoBehaviour
                 }
                 else
                 {
+                    
                     CombatGUIController.InCombat = true;
                     _lockedOn = true;
                     ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO

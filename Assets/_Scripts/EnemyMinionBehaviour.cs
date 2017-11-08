@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemyMinionBehaviour : MonoBehaviour
 {
+   // public static Dictionary<Guid, Transform> TransformList { get; set; }
     private int damage;
     private float _damageAggregate;
     public int Health;
@@ -19,13 +21,17 @@ public class EnemyMinionBehaviour : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+   //     TransformList.Add(Guid.NewGuid(), transform);
         IsDead = false;
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
     }
 
-
+    private void Update()
+    {
+      
+    }
     public IEnumerator ShowDamage()
     {
         DamageText.text = damage.ToString();
