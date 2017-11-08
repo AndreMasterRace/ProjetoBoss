@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyMinionBehaviour : MonoBehaviour
 {
-   // public static Dictionary<Guid, Transform> TransformList { get; set; }
+  // public static Transform Transform { get; set; }
     private int damage;
     private float _damageAggregate;
     public int Health;
@@ -18,7 +18,7 @@ public class EnemyMinionBehaviour : MonoBehaviour
     public bool IsDead;
 
 
-    // Use this for initialization
+   
     void Start()
     {
    //     TransformList.Add(Guid.NewGuid(), transform);
@@ -30,7 +30,7 @@ public class EnemyMinionBehaviour : MonoBehaviour
 
     private void Update()
     {
-      
+      //  Transform = transform;
     }
     public IEnumerator ShowDamage()
     {

@@ -62,6 +62,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4259789594826768}
   - component: {fileID: 135807653924038808}
+  - component: {fileID: 114054852714912478}
   m_Layer: 0
   m_Name: LockOn Trigger
   m_TagString: Untagged
@@ -236,6 +237,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114054852714912478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768386693948068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d49d1c1d021aeb4382bd5f00fcc4196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyList: []
+  TheresEnemiesOnSight: 0
 --- !u!114 &114072718512552170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,12 +279,12 @@ MonoBehaviour:
   SensitivityPitch: 2
   SwordAnimator: {fileID: 95544736847827386}
   PlayerRotation: {fileID: 0}
-  Focus: {fileID: 0}
   MovementSpeed: 0.2
   TurnDegrees: 10
   SpeedWhenLockedOn: 10
   RotationSpeed: 5
   Health: 0
+  LockOnController: {fileID: 114054852714912478}
   IsInteracting: 0
   ProximityTreshold: 2.6
   RemotenessTreshold: 9

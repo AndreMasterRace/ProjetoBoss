@@ -30,7 +30,7 @@ public class PlayerController2 : MonoBehaviour
     public Animator SwordAnimator;
     public GameObject PlayerRotation;
     //public GameObject Focus;
-    private GameObject Focus;
+    private EnemyMinionBehaviour Focus;
     /// 
     ///VELOCIDADE QUANDO FREE CAMERA
     public float MovementSpeed;
@@ -69,7 +69,7 @@ public class PlayerController2 : MonoBehaviour
     
     void Start()
     {
-        Focus = new GameObject();
+      //  Focus = new EnemyMinionBehaviour();
         Transform = transform;
         MaxHealth = Health;
         _moveHorizontal = 0;
@@ -91,9 +91,7 @@ public class PlayerController2 : MonoBehaviour
 
     void Update()
     {
-        ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
-        GetDistance();
-        ///
+
         if (_moveAllowed)
         {
             _moveHorizontal = Input.GetAxis("Horizontal");
@@ -107,10 +105,13 @@ public class PlayerController2 : MonoBehaviour
         ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
         if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
         {
-            //if(Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
-            //{
-            //    _lockedOn = false;
-            //}
+            if (_lockedOn)
+            {
+                if (Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
+                {
+                    _lockedOn = false;
+                }
+            }
         }
         ///
         ///INTERAGIR COM OBJETOS
@@ -119,8 +120,7 @@ public class PlayerController2 : MonoBehaviour
             StartCoroutine(Interact());
         }
         ///
-        Focus = LockOnController.CheckCloser();
-        if (_distanceToCenter > ProximityTreshold && _distanceToCenter < RemotenessTreshold)
+        if (LockOnController.TheresEnemiesOnSight)
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
             {
@@ -131,7 +131,7 @@ public class PlayerController2 : MonoBehaviour
                 }
                 else
                 {
-                    
+                    Focus = LockOnController.CheckCloser();
                     CombatGUIController.InCombat = true;
                     _lockedOn = true;
                     ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
@@ -187,6 +187,10 @@ public class PlayerController2 : MonoBehaviour
 
         if (_lockedOn)
         {
+            ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
+            GetDistance();
+            ///
+
             _centerOfFocus = Focus.transform.position;
             //print(_distanceToCenter);
             if (_moveAllowed)
