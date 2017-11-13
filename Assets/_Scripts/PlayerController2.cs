@@ -123,6 +123,7 @@ public class PlayerController2 : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyBindings.LockON))
             {
+                print("Lock on");
                 if (_lockedOn)
                 {
                     _lockedOn = false;

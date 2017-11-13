@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: d15d6056d4255f241b3b5530948d4e7b
+timeCreated: 1510590359
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Body
+    100002: Bottoms
+    100004: Eyelashes
+    100006: Eyes
+    100008: Eyewear
+    100010: //RootNode
+    100012: Gloves
+    100014: Hair
+    100016: Shoes
+    100018: Tops
+    400000: Body
+    400002: Bottoms
+    400004: Eyelashes
+    400006: Eyes
+    400008: Eyewear
+    400010: //RootNode
+    400012: Gloves
+    400014: Hair
+    400016: Shoes
+    400018: Tops
+    2300000: Body
+    2300002: Bottoms
+    2300004: Eyelashes
+    2300006: Eyes
+    2300008: Eyewear
+    2300010: Gloves
+    2300012: Hair
+    2300014: Shoes
+    2300016: Tops
+    3300000: Body
+    3300002: Bottoms
+    3300004: Eyelashes
+    3300006: Eyes
+    3300008: Eyewear
+    3300010: Gloves
+    3300012: Hair
+    3300014: Shoes
+    3300016: Tops
+    4300000: Body
+    4300002: Bottoms
+    4300004: Eyelashes
+    4300006: Eyes
+    4300008: Eyewear
+    4300010: Gloves
+    4300012: Hair
+    4300014: Shoes
+    4300016: Tops
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BodyMat
+    second: {fileID: 2100000, guid: 3329439a222f7b44f9f6adf48d202c1a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BottomsMat
+    second: {fileID: 2100000, guid: a899886ff1bc0c643815f862885a7ed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyelashesMat
+    second: {fileID: 2100000, guid: 7c59f0d11a173394aa82f565d8aafd83, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyesMat
+    second: {fileID: 2100000, guid: c699d90af3f1449438044517251b6673, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyewearMat
+    second: {fileID: 2100000, guid: 9a3ae75b4cfd6f84aaea4605f6e29f28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlovesMat
+    second: {fileID: 2100000, guid: 40d1d0f5a31d50b4580b49bed0bff704, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HairMat
+    second: {fileID: 2100000, guid: 8a60da966dc91334cb2ea1cf3ea486f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ShoesMat
+    second: {fileID: 2100000, guid: c4df63d3ddb50cb4c96f3782623b0041, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TopsMat
+    second: {fileID: 2100000, guid: 2f65e03e9291cf54ca49a7af6ca33e21, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
