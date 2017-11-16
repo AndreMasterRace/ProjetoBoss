@@ -89,7 +89,11 @@ public class PlayerController2 : MonoBehaviour
 
     void Update()
     {
-
+        if(_moveHorizontal!=0 || _moveVertical != 0)
+        {
+            GetComponent<Animator>().SetBool("isMoving", true);
+        }
+        else GetComponent<Animator>().SetBool("isMoving", false);
         if (_moveAllowed)
         {
             _moveHorizontal = Input.GetAxis("Horizontal");
