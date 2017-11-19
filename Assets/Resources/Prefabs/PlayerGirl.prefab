@@ -2302,6 +2302,7 @@ MonoBehaviour:
   IsInteracting: 0
   ProximityTreshold: 2.6
   RemotenessTreshold: 9
+  Body: {fileID: 0}
 --- !u!114 &114562614509106392
 MonoBehaviour:
   m_ObjectHideFlags: 1

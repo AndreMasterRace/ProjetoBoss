@@ -15,6 +15,7 @@ public class EnemyMinionBehaviour : MonoBehaviour
     [HideInInspector]
     public bool IsDead;
     public LevelEventsManager LevelEventsManager;
+    public float Height;
 
     void Start()
     {

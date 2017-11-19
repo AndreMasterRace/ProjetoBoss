@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class PlayerController2 : MonoBehaviour
+public class PlayerController3 : MonoBehaviour
 {
     ///CAMERA VARIABLES
     public Vector3 CameraOffset;
@@ -42,13 +42,13 @@ public class PlayerController2 : MonoBehaviour
 
 
     public int Health;
-    
+
     private Vector3 _oldPosition;
 
     private float _distanceToCenter;
     private bool _moveAllowed;
 
-    
+
     ///PARA ONDE O PLAYER VAI OLHAR QUANDO ESTÁ LOCKED ON
     private Vector3 _centerOfFocus;
     ///
@@ -66,7 +66,7 @@ public class PlayerController2 : MonoBehaviour
     public float RemotenessTreshold;
     ///
 
-    public GameObject Body;
+    //public GameObject Body;
 
     void Start()
     {
@@ -143,9 +143,8 @@ public class PlayerController2 : MonoBehaviour
                     Focus = LockOnController.CheckCloser();
                     CombatGUIController.InCombat = true;
                     _lockedOn = true;
-                    _centerOfFocus = Focus.transform.position;
                     ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
-                    PlayerRotation.transform.position = _centerOfFocus;
+                    PlayerRotation.transform.position = Focus.transform.position;
                     ///COLOCAR O PLAYER DE VOLTA NO SEU LOCAL (POIS MEXER NO PlayeRotation VAI ALTERAR ESTA POSICAO)
                     transform.position = _oldPosition;
                     ///COLOCAR O PLAYER A OLHAR PARA O INIMIGO
@@ -162,7 +161,7 @@ public class PlayerController2 : MonoBehaviour
         {
             #region FREE MOVE
             ///MOVER PLAYER PARA FRENTE
-            transform.position += transform.forward * _moveVertical* MovementSpeed;
+            transform.position += transform.forward * _moveVertical * MovementSpeed;
             ///
             ///RODAR PLAYER PARA ESQUERDA/DIREITA
             if (_moveHorizontal > 0)
@@ -187,7 +186,7 @@ public class PlayerController2 : MonoBehaviour
             ///
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, CameraRotationDamping * Time.deltaTime);
 
-          
+
 
             var cameraTarget = transform.position + transform.rotation * CameraOffset;
 
@@ -201,7 +200,7 @@ public class PlayerController2 : MonoBehaviour
             GetDistance();
             ///
 
-            _centerOfFocus = Focus.transform.position - new Vector3(0, Focus.GetComponent<EnemyMinionBehaviour>().Height, 0);
+            _centerOfFocus = Focus.transform.position;
             //print(_distanceToCenter);
             if (_moveAllowed)
             {
@@ -252,13 +251,13 @@ public class PlayerController2 : MonoBehaviour
                     {
                         if (_distanceToCenter > ProximityTreshold)
                         {
-                            if (Vector3.Magnitude(transform.position + transform.forward * Time.deltaTime * SpeedWhenLockedOn)>ProximityTreshold)
+                            if (Vector3.Magnitude(transform.position + transform.forward * Time.deltaTime * SpeedWhenLockedOn) > ProximityTreshold)
                             {
 
                                 transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn;
                             }
                         }
-                    
+
                     }
                     if (Input.GetKey(KeyBindings.MoveBackwards))
                     {
@@ -276,12 +275,12 @@ public class PlayerController2 : MonoBehaviour
             PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
 
-            transform.LookAt(_centerOfFocus);
+            transform.LookAt(Focus.transform.position);
 
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
             var cameraTarget = transform.position + transform.rotation * CameraOffset;
             Camera.main.transform.position = cameraTarget;
-            Camera.main.transform.LookAt(_centerOfFocus);
+            Camera.main.transform.LookAt(Focus.transform.position);
         }
 
         ///ATUALIZAR A TRANSFORM ESTATICA
@@ -294,7 +293,7 @@ public class PlayerController2 : MonoBehaviour
     ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
     public void GetDistance()
     {
-        _distanceToCenter = Vector3.Distance(transform.position, _centerOfFocus);
+        _distanceToCenter = Vector3.Distance(transform.position, Focus.transform.position);
     }
     ///
     ///CORROTINA QUE CONTROLA A DASH DO PLAYER

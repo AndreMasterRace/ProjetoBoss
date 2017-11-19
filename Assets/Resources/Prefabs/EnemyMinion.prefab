@@ -134,6 +134,7 @@ MonoBehaviour:
   DamageText: {fileID: 0}
   IsDead: 0
   LevelEventsManager: {fileID: 0}
+  Height: 1
 --- !u!136 &136259175550733138
 CapsuleCollider:
   m_ObjectHideFlags: 1

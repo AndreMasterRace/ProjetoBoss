@@ -431,6 +431,16 @@ Prefab:
       propertyPath: PlayerRotation
       value: 
       objectReference: {fileID: 1526775860}
+    - target: {fileID: 114479166246532418, guid: 31be1e512e4b0e64393baaf3d23f63a9,
+        type: 2}
+      propertyPath: Body
+      value: 
+      objectReference: {fileID: 2134373687}
+    - target: {fileID: 114479166246532418, guid: 31be1e512e4b0e64393baaf3d23f63a9,
+        type: 2}
+      propertyPath: CameraOffset.z
+      value: -4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 31be1e512e4b0e64393baaf3d23f63a9, type: 2}
   m_IsPrefabParent: 0
@@ -1272,5 +1282,10 @@ Prefab:
 --- !u!4 &2126359488 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4709488557108130, guid: 31be1e512e4b0e64393baaf3d23f63a9,
+    type: 2}
+  m_PrefabInternal: {fileID: 875272471}
+--- !u!1 &2134373687 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1489273328043854, guid: 31be1e512e4b0e64393baaf3d23f63a9,
     type: 2}
   m_PrefabInternal: {fileID: 875272471}
