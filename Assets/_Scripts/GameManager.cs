@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour {
         LevelEventsManager.AmountForEvent = 2;
 
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        
+    }
+
     private void Start()
     {
 
