@@ -97,11 +97,12 @@ public class PlayerController2 : MonoBehaviour
 
     void Update()
     {
+        ///QUANDO FOR PERMITIDO MEXER O PLAYER
         if (_moveAllowed)
         {
             _moveHorizontal = Input.GetAxis("Horizontal");
             _moveVertical = Input.GetAxis("Vertical");
-
+            _animator.SetBool("isMoving", true);
             ///ATAQUE
             if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
             {
@@ -124,6 +125,7 @@ public class PlayerController2 : MonoBehaviour
                     if (_lockedOn)
                     {
                         _lockedOn = false;
+                        _animator.SetBool("LockedOn", _lockedOn);
                         CombatGUIController.InCombat = false;
                         ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
                         _desiredRot = transform.rotation;
@@ -134,6 +136,7 @@ public class PlayerController2 : MonoBehaviour
                         Focus = LockOnController.CheckCloser();
                         CombatGUIController.InCombat = true;
                         _lockedOn = true;
+                        _animator.SetBool("LockedOn", _lockedOn);
                         _centerOfFocus = Focus.transform.position;
                         ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
                         PlayerRotation.transform.position = _centerOfFocus;
@@ -149,8 +152,31 @@ public class PlayerController2 : MonoBehaviour
             }
             ///
         }
-        _animator.SetFloat("Blend", _moveVertical);
+        else
+        {
+            _animator.SetBool("isMoving", false);
+        }
+        ///
+        ///DAR A INFORMACAO DO MEU MOVIMENTO AO ANIMATOR PARA ELE MOSTRAR A ANIMACAO CORRESPONDENTE
+        _animator.SetFloat("MoveVertical", _moveVertical);
+        ///
+        ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
+        if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
+        {
+            try
+            {
+                if (Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
+                {
+                    _lockedOn = false;
+                }
+            }
+            catch
+            {
+            }
 
+        }
+        ///
+        //_animator.SetFloat("MoveSideways", _moveHorizontal);
         if (!_lockedOn)
         {
             #region FREE MOVE
@@ -192,17 +218,6 @@ public class PlayerController2 : MonoBehaviour
         {
             ///OBTER DISTANCIA ENTRE O PLAYER E O INIMIGO
             GetDistance();
-            ///
-            ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
-            if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
-            {
-
-                if (Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
-                {
-                    _lockedOn = false;
-                }
-
-            }
             ///
             _centerOfFocus = Focus.transform.position;
             _cameraFocus = _centerOfFocus;
@@ -276,7 +291,7 @@ public class PlayerController2 : MonoBehaviour
                     ///
                 }
 
-
+                _animator.SetFloat("MoveSideways", _moveHorizontal);
             }
             PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
@@ -289,7 +304,6 @@ public class PlayerController2 : MonoBehaviour
             Camera.main.transform.LookAt(_cameraFocus);
         }
 
-        //HandTransform = Hand.transform;
         ///ATUALIZAR A TRANSFORM ESTATICA
         Transform = transform;
         ///
