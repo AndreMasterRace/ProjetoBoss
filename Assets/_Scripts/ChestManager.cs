@@ -45,6 +45,12 @@ public class ChestManager : MonoBehaviour
     {
         //_anim.SetBool("isOpen", true);
         _anim.Play("ChestOpen");
+        SendContents();
+    }
+
+    public void SendContents()
+    {
+        Inventory.hasBossKey = true;
     }
 
     private void Update()

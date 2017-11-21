@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyBehaviour : MonoBehaviour
+public class BossBehaviour : MonoBehaviour
 {
     private int damage;
     public int Health;
@@ -24,6 +24,7 @@ public class EnemyBehaviour : MonoBehaviour
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
+        ///COMECA CORRI
         StartCoroutine(Idle());
     }
 

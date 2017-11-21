@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 196d6dafcbdee7a4a8155610854dd2aa
+timeCreated: 1511282762
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Da Pandora
+  fontNames:
+  - Da Pandora
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

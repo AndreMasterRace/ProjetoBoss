@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class WeaponBehaviour : MonoBehaviour {
 
-    private BoxCollider _boxCollider;
+    //private BoxCollider _boxCollider;
+    private CapsuleCollider _capCollider;
+    public bool isAttacking;
 
     private void Start()
     {
-        _boxCollider = GetComponent<BoxCollider>();
+        isAttacking = false;
+        _capCollider = GetComponent<CapsuleCollider>();
     }
 
     public int DamageCalc()
@@ -20,11 +23,13 @@ public class WeaponBehaviour : MonoBehaviour {
 
     public void EnableWeaponCollider()
     {
-        _boxCollider.enabled = true; 
+        isAttacking = true;
+        //_boxCollider.enabled = true; 
     }
     public void DisableWeaponCollider()
     {
-        _boxCollider.enabled = false;
+        isAttacking = false;
+       // _boxCollider.enabled = false;
     }
     //private void Update()
     //{

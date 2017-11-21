@@ -21,4 +21,14 @@ public class LevelEventsManager : MonoBehaviour
     {
         ChestManager.Spawn();
     }
+
+    public void GiveItems(Inventory.ITEMS item)
+    {
+        
+        Inventory.hasBossKey = true;
+    }
+    public void TakeItems(Inventory.ITEMS item)
+    {
+        Inventory.hasBossKey = false;
+    }
 }

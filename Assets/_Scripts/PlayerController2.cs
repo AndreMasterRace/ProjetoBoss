@@ -73,6 +73,8 @@ public class PlayerController2 : MonoBehaviour
     public WeaponBehaviour Weapon;
     //public GameObject Hand;
 
+    private bool _canAttack;
+
     void Start()
     {
         //HandTransform = Hand.transform;
@@ -81,6 +83,7 @@ public class PlayerController2 : MonoBehaviour
         _moveHorizontal = 0;
         _moveVertical = 0;
         _moveAllowed = true;
+        _canAttack = true;
         IsInteracting = false;
         _lockedOn = false;
         _animator = GetComponent<Animator>();
@@ -291,6 +294,7 @@ public class PlayerController2 : MonoBehaviour
                     ///
                 }
 
+
                 _animator.SetFloat("MoveSideways", _moveHorizontal);
             }
             PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
@@ -344,17 +348,8 @@ public class PlayerController2 : MonoBehaviour
     ///CORROTINA QUE CONTROLA O PRIMEIRO ATAQUE IMPLEMENTADO, IMPORTANTE TIRAR O PISCO DE CAN TRANSITION TO SELF NO ANIMATOR 
     public IEnumerator Attack()
     {
-        print("attack");
-        Weapon.EnableWeaponCollider();
-        yield return new WaitForEndOfFrame();
         _animator.SetTrigger("AttackTrigger");
-        
-        while (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9)
-        {
 
-            yield return null;
-        }
-        Weapon.DisableWeaponCollider();
         while (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
         {
             yield return null;
@@ -363,5 +358,14 @@ public class PlayerController2 : MonoBehaviour
         yield return null;
     }
     ///
+
+    public void EnableTrigger()
+    {
+        Weapon.GetComponent<CapsuleCollider>().enabled = true;
+    }
+    public void DisableTrigger()
+    {
+        Weapon.GetComponent<CapsuleCollider>().enabled = false;
+    }
 
 }
