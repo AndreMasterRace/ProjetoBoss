@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
         PlayerEnabler.IsEnabled = true;
         LevelEventsManager.DeadEnemies = 0;
         LevelEventsManager.AmountForEvent = 2;
-
+        BossEnabler.Disable();
     }
 
     private void OnTriggerStay(Collider other)
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
-
+        
         LifePointList = new List<GameObject>();
 
         LifePointArray = new GameObject[20];

@@ -42,8 +42,9 @@ public class PlayerController2 : MonoBehaviour
     public float SpeedWhenLockedOn;
     ///VELOCIDADE PARA ESQUERDA/DIREITA QUANDO LOCK ON
     public float RotationSpeed;
-
-
+    ///O DANO TOTAL QUE LEVOU
+    private int _totalDamageTaken;
+    ///
     public int Health;
 
     private Vector3 _oldPosition;
@@ -86,9 +87,11 @@ public class PlayerController2 : MonoBehaviour
         _canAttack = true;
         IsInteracting = false;
         _lockedOn = false;
+        _totalDamageTaken = 0;
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         CombatGUIController.InCombat = false;
+        PlayerEnabler.PlayerController2 = this;
         ///PARA IMPEDIR ROTACOES MINIMAS PERSISTENTES
         _rb.sleepThreshold = 0.1f;
         _rb.freezeRotation = true;
@@ -366,6 +369,26 @@ public class PlayerController2 : MonoBehaviour
     public void DisableTrigger()
     {
         Weapon.GetComponent<CapsuleCollider>().enabled = false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
+        GameManager.LifeBarDecrease(damage, _totalDamageTaken);
+        //ISTO SEMPRE DEPOIS DE FAZER LIFEBARDECREASE()
+        _totalDamageTaken += damage;
+        print(Health);
+        if (Health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        _animator.SetBool("isDead", true);
+        GameManager.GameOverScreen();
+        _moveAllowed = false;
     }
 
 }

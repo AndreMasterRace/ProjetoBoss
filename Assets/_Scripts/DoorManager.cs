@@ -31,6 +31,7 @@ public class DoorManager : MonoBehaviour {
         //_anim.SetBool("isOpen", true);
         _anim.Play("DoorOpen");
         TakeKey();
+        BossEnabler.Enable();
     }
 
     public void TakeKey()
