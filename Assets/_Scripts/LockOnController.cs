@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LockOnController : MonoBehaviour
 {
-
     public List<Collider> EnemyList;
     [HideInInspector]
     public bool TheresEnemiesOnSight;

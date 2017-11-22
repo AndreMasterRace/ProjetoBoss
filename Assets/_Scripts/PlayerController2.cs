@@ -6,7 +6,6 @@ public class PlayerController2 : MonoBehaviour
 {
     ///CAMERA VARIABLES
     public Vector3 CameraOffset;
-    //public GameObject CameraController;
     public float CameraRotationDamping;
     public float CameraFollowDamping;
     public float SensitivityYaw;
@@ -74,9 +73,11 @@ public class PlayerController2 : MonoBehaviour
     //public GameObject Hand;
 
     private bool _canAttack;
+    private float _timer;
 
     void Start()
     {
+        _timer = 0;
         //HandTransform = Hand.transform;
         Transform = transform;
         MaxHealth = Health;
@@ -107,7 +108,7 @@ public class PlayerController2 : MonoBehaviour
         {
             _moveHorizontal = Input.GetAxis("Horizontal");
             _moveVertical = Input.GetAxis("Vertical");
-            if(_moveVertical!=0 || _moveHorizontal!=0)
+            if (_moveVertical != 0 || _moveHorizontal != 0)
             {
                 _animator.SetBool("isMoving", true);
             }
@@ -146,7 +147,7 @@ public class PlayerController2 : MonoBehaviour
             }
             ///
         }
-       
+
         ///
         ///DAR A INFORMACAO DO MEU MOVIMENTO AO ANIMATOR PARA ELE MOSTRAR A ANIMACAO CORRESPONDENTE
         _animator.SetFloat("MoveVertical", _moveVertical);
@@ -221,13 +222,13 @@ public class PlayerController2 : MonoBehaviour
                     _animator.SetTrigger("isDashing");
                     if (_moveHorizontal < 0)
                     {
-                        _degreesMove = 90;
+                        _degreesMove = 60;
                         _degreesMove = (RemotenessTreshold * _degreesMove) / _distanceToCenter;
                         _moveAllowed = false;
                     }
                     else if (_moveHorizontal > 0)
                     {
-                        _degreesMove = -90;
+                        _degreesMove = -60;
                         _degreesMove = (RemotenessTreshold * _degreesMove) / _distanceToCenter;
                         _moveAllowed = false;
                     }
@@ -238,6 +239,7 @@ public class PlayerController2 : MonoBehaviour
                 }
                 else
                 {
+                    ///MOVER ESQUERDA/DIREITA EM CIRCULO DE VOLTA DO INIMIGO, QUANDO LEVANTO O BUTAO COLOCO A _desiretRot EM DEFAULT
                     if (Input.GetKey(KeyBindings.MoveLeft))
                     {
                         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + TurnDegrees, 0);
@@ -247,7 +249,6 @@ public class PlayerController2 : MonoBehaviour
                         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                     }
-
                     if (Input.GetKey(KeyBindings.MoveRight))
                     {
                         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y - TurnDegrees, 0);
@@ -258,7 +259,8 @@ public class PlayerController2 : MonoBehaviour
                         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
 
                     }
-                    ///NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
+                    ///
+                    ///MOVER FRENTE E TRAS, NO RIGIDODY O INTERPOLATE TEM DE ESTAR LIGADO
                     if (Input.GetKey(KeyBindings.MoveForward))
                     {
                         if (_distanceToCenter > ProximityTreshold)
@@ -282,12 +284,11 @@ public class PlayerController2 : MonoBehaviour
                     ///
                 }
 
-
                 _animator.SetFloat("MoveSideways", _moveHorizontal);
             }
             PlayerRotation.transform.rotation = Quaternion.Lerp(PlayerRotation.transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
 
-            
+
             transform.LookAt(_centerOfFocus);
 
             Camera.main.transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRot, RotationSpeed * Time.fixedDeltaTime);
@@ -313,7 +314,7 @@ public class PlayerController2 : MonoBehaviour
     public IEnumerator DashSideways()
     {
         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
-      
+
 
         yield return new WaitForSeconds(0.6f);
         _moveAllowed = true;
@@ -326,14 +327,17 @@ public class PlayerController2 : MonoBehaviour
     {
         if (_distanceToCenter > ProximityTreshold)
         {
-            if (Vector3.Magnitude(transform.position + transform.forward * Time.deltaTime * SpeedWhenLockedOn) > ProximityTreshold)
+            while (_timer < 0.6)
             {
-
-                transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn;
+                if(_distanceToCenter < ProximityTreshold+0.1)
+                {
+                    transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn * 2;
+                }
+                _timer += 0.02f;
+               yield return new WaitForSeconds(0.02f);
             }
         }
-
-        yield return new WaitForSeconds(0.6f);
+        //yield return new WaitForSeconds(0.6f);
         _moveAllowed = true;
         
         yield return null;
@@ -367,12 +371,10 @@ public class PlayerController2 : MonoBehaviour
 
     public void EnableTrigger()
     {
-        //Weapon.GetComponent<CapsuleCollider>().enabled = true;
         Weapon.EnableWeaponCollider();
     }
     public void DisableTrigger()
     {
-        //Weapon.GetComponent<CapsuleCollider>().enabled = false;
         Weapon.DisableWeaponCollider();
     }
 

@@ -40,7 +40,7 @@ public class BossBehaviour : MonoBehaviour
 
     public void ChoseAttack()
     {
-        float rand = Random.Range(1, 101);
+        int rand = Random.Range(1, 101);
 
         if (Vector3.Distance(transform.position, PlayerController.Transform.position) < 7.5f)
         {

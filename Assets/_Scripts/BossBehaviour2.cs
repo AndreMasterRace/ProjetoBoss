@@ -41,16 +41,6 @@ public class BossBehaviour2 : MonoBehaviour
             StartCoroutine(Idle());
             ///
         }
-        //_nAttack1 = 0;
-        //_damageAggregate = 0;
-        //_maxHealth = Health;
-        //_animator = GetComponent<Animator>();
-        //if(BossEnabler.IsEnabled)
-        //{
-        //    ///COMECA A SUSSECAO DE ATAQUES
-        //    StartCoroutine(Idle());
-        //    ///
-        //}
     }
 
     public IEnumerator Idle()
@@ -62,7 +52,7 @@ public class BossBehaviour2 : MonoBehaviour
 
     public void ChoseAttack()
     {
-        float rand = Random.Range(1, 101);
+        int rand = Random.Range(1, 101);
 
         if (Vector3.Distance(transform.position, PlayerController2.Transform.position) < 7.5f)
         {

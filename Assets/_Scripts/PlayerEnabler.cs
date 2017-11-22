@@ -17,21 +17,4 @@ public class PlayerEnabler : MonoBehaviour {
         PlayerController2.enabled = true;
     }
 
-    //private void Update()
-    //{
-    //    if(IsEnabled)
-    //    {
-    //        if(!GetComponent<PlayerController2>().enabled)
-    //        {
-    //            Enable();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        if (GetComponent<PlayerController2>().enabled)
-    //        {
-    //            Disable();
-    //        }
-    //    }
-    //}
 }
