@@ -30,9 +30,8 @@ public class PlayerController2 : MonoBehaviour
     ///COMPONENTS & OBJECTS
     private Animator _animator;
     private Rigidbody _rb;
-    //public Animator SwordAnimator;
     public GameObject PlayerRotation;
-    private EnemyMinionBehaviour Focus;
+    private Collider Focus;
     /// 
     ///VELOCIDADE QUANDO FREE CAMERA
     public float MovementSpeed;
@@ -108,7 +107,14 @@ public class PlayerController2 : MonoBehaviour
         {
             _moveHorizontal = Input.GetAxis("Horizontal");
             _moveVertical = Input.GetAxis("Vertical");
-            _animator.SetBool("isMoving", true);
+            if(_moveVertical!=0 || _moveHorizontal!=0)
+            {
+                _animator.SetBool("isMoving", true);
+            }
+            else
+            {
+                _animator.SetBool("isMoving", false);
+            }
             ///ATAQUE
             if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
             {
@@ -130,38 +136,17 @@ public class PlayerController2 : MonoBehaviour
                     print("Lock on");
                     if (_lockedOn)
                     {
-                        _lockedOn = false;
-                        _animator.SetBool("LockedOn", _lockedOn);
-                        CombatGUIController.InCombat = false;
-                        ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
-                        _desiredRot = transform.rotation;
-                        ///
+                        LockOut();
                     }
                     else
                     {
-                        Focus = LockOnController.CheckCloser();
-                        CombatGUIController.InCombat = true;
-                        _lockedOn = true;
-                        _animator.SetBool("LockedOn", _lockedOn);
-                        _centerOfFocus = Focus.transform.position;
-                        ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
-                        PlayerRotation.transform.position = _centerOfFocus;
-                        ///COLOCAR O PLAYER DE VOLTA NO SEU LOCAL (POIS MEXER NO PlayeRotation VAI ALTERAR ESTA POSICAO)
-                        transform.position = _oldPosition;
-                        ///COLOCAR O PLAYER A OLHAR PARA O INIMIGO
-                        transform.LookAt(_centerOfFocus);
-                        ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
-                        _desiredRot = PlayerRotation.transform.rotation;
-                        ///
+                        LockOn();
                     }
                 }
             }
             ///
         }
-        else
-        {
-            _animator.SetBool("isMoving", false);
-        }
+       
         ///
         ///DAR A INFORMACAO DO MEU MOVIMENTO AO ANIMATOR PARA ELE MOSTRAR A ANIMACAO CORRESPONDENTE
         _animator.SetFloat("MoveVertical", _moveVertical);
@@ -171,9 +156,9 @@ public class PlayerController2 : MonoBehaviour
         {
             try
             {
-                if (Focus.GetComponent<EnemyMinionBehaviour>().IsDead)
+                if (Focus.GetComponent<NPCStats>().IsDead)
                 {
-                    _lockedOn = false;
+                    LockOut();
                 }
             }
             catch
@@ -227,29 +212,29 @@ public class PlayerController2 : MonoBehaviour
             ///
             _centerOfFocus = Focus.transform.position;
             _cameraFocus = _centerOfFocus;
-            _centerOfFocus.y -= Focus.GetComponent<EnemyMinionBehaviour>().Height;
+            _centerOfFocus.y -= Focus.GetComponent<NPCStats>().Height;
             //print(_distanceToCenter);
             if (_moveAllowed)
             {
                 if (Input.GetKeyDown(KeyBindings.Dash))
                 {
-
+                    _animator.SetTrigger("isDashing");
                     if (_moveHorizontal < 0)
                     {
-                        _degreesMove = 60;
-
+                        _degreesMove = 90;
                         _degreesMove = (RemotenessTreshold * _degreesMove) / _distanceToCenter;
-                        //print(_degreesMove);
+                        _moveAllowed = false;
                     }
-
                     else if (_moveHorizontal > 0)
                     {
-                        _degreesMove = -60;
+                        _degreesMove = -90;
                         _degreesMove = (RemotenessTreshold * _degreesMove) / _distanceToCenter;
-                        //print(DegreesMove);
+                        _moveAllowed = false;
                     }
-
-                    StartCoroutine(Dash());
+                    else if (_moveVertical > 0)
+                    {
+                        _moveAllowed = false;
+                    }
                 }
                 else
                 {
@@ -324,15 +309,33 @@ public class PlayerController2 : MonoBehaviour
         _distanceToCenter = Vector3.Distance(transform.position, _centerOfFocus);
     }
     ///
-    ///CORROTINA QUE CONTROLA A DASH DO PLAYER
-    public IEnumerator Dash()
+    ///CORROTINA QUE CONTROLA A DASH DO PLAYER (LADOS)
+    public IEnumerator DashSideways()
     {
         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y + _degreesMove, 0);
-        _moveAllowed = false;
+      
 
         yield return new WaitForSeconds(0.6f);
         _moveAllowed = true;
         _desiredRot = Quaternion.Euler(0, PlayerRotation.transform.eulerAngles.y, 0);
+        yield return null;
+    }
+    ///
+    /// ///CORROTINA QUE CONTROLA A DASH DO PLAYER (FRENTE/TRAS)
+    public IEnumerator DashFwdBack()
+    {
+        if (_distanceToCenter > ProximityTreshold)
+        {
+            if (Vector3.Magnitude(transform.position + transform.forward * Time.deltaTime * SpeedWhenLockedOn) > ProximityTreshold)
+            {
+
+                transform.position += transform.forward * Time.deltaTime * SpeedWhenLockedOn;
+            }
+        }
+
+        yield return new WaitForSeconds(0.6f);
+        _moveAllowed = true;
+        
         yield return null;
     }
     ///
@@ -364,11 +367,13 @@ public class PlayerController2 : MonoBehaviour
 
     public void EnableTrigger()
     {
-        Weapon.GetComponent<CapsuleCollider>().enabled = true;
+        //Weapon.GetComponent<CapsuleCollider>().enabled = true;
+        Weapon.EnableWeaponCollider();
     }
     public void DisableTrigger()
     {
-        Weapon.GetComponent<CapsuleCollider>().enabled = false;
+        //Weapon.GetComponent<CapsuleCollider>().enabled = false;
+        Weapon.DisableWeaponCollider();
     }
 
     public void TakeDamage(int damage)
@@ -389,6 +394,35 @@ public class PlayerController2 : MonoBehaviour
         _animator.SetBool("isDead", true);
         GameManager.GameOverScreen();
         _moveAllowed = false;
+    }
+    public void LockOn()
+    {
+        Focus = LockOnController.CheckCloser();
+        CombatGUIController.InCombat = true;
+        _lockedOn = true;
+        _animator.SetBool("LockedOn", _lockedOn);
+        _centerOfFocus = Focus.transform.position;
+        ///COLOCAR O ITEN QUE FAZ A ROTACAO DO PLAYER NO LOCAL DO INIMIGO
+        PlayerRotation.transform.position = _centerOfFocus;
+        ///COLOCAR O PLAYER DE VOLTA NO SEU LOCAL (POIS MEXER NO PlayeRotation VAI ALTERAR ESTA POSICAO)
+        transform.position = _oldPosition;
+        ///COLOCAR O PLAYER A OLHAR PARA O INIMIGO
+        transform.LookAt(_centerOfFocus);
+        ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
+        _desiredRot = PlayerRotation.transform.rotation;
+        ///
+    }
+    public void LockOut()
+    {
+        _lockedOn = false;
+        _animator.SetBool("LockedOn", _lockedOn);
+        CombatGUIController.InCombat = false;
+        ///FACO ISTO PARA "LIMPAR" O VALOR DA _desiredRot, IMPEDINDO O PLAYER DE FAZER UMA ROTACAO INICIAL DESNECESSARIA
+        _desiredRot = transform.rotation;
+        ///
+        ///TORNAR O VALOR DE MoveSideways = 0 PARA NAO FAZER STRAFE QUANDO TIRO LOCK ON
+        _animator.SetFloat("MoveSideways", 0.0f);
+        ///
     }
 
 }

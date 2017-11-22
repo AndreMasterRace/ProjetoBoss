@@ -10,6 +10,7 @@ public class PlayerEnabler : MonoBehaviour {
     public static void Disable()
     {
         PlayerController2.enabled = false;
+
     }
     public static void Enable()
     {

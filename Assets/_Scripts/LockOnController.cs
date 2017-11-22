@@ -5,7 +5,7 @@ using UnityEngine;
 public class LockOnController : MonoBehaviour
 {
 
-    public List<EnemyMinionBehaviour> EnemyList;
+    public List<Collider> EnemyList;
     [HideInInspector]
     public bool TheresEnemiesOnSight;
 
@@ -22,18 +22,18 @@ public class LockOnController : MonoBehaviour
             {
                 print("enemy enter");
                 TheresEnemiesOnSight = true;
-                EnemyList.Add(other.GetComponent<EnemyMinionBehaviour>());
+                EnemyList.Add(other);
             }
             ///SE JA HA OUTROS INIMIGOS PERTO
-            StartCoroutine(CheckIfItsCopy(other.GetComponent<EnemyMinionBehaviour>()));
+            StartCoroutine(CheckIfItsCopy(other));
             ///
         }
     }
-    private IEnumerator CheckIfItsCopy(EnemyMinionBehaviour newEnemy)
+    private IEnumerator CheckIfItsCopy(Collider newEnemy)
     {
         int nDifferentEnemies = 0;
         yield return new WaitForFixedUpdate();
-        foreach (EnemyMinionBehaviour enemy in EnemyList.ToArray())
+        foreach (Collider enemy in EnemyList.ToArray())
         {
             if (enemy.GetInstanceID() != newEnemy.GetInstanceID())
             {
@@ -44,7 +44,7 @@ public class LockOnController : MonoBehaviour
         {
             print("enemy enter");
             TheresEnemiesOnSight = true;
-            EnemyList.Add(newEnemy.GetComponent<EnemyMinionBehaviour>());
+            EnemyList.Add(newEnemy);
         }
 
         yield return null;
@@ -54,7 +54,7 @@ public class LockOnController : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            EnemyList.Remove(other.GetComponent<EnemyMinionBehaviour>());
+            EnemyList.Remove(other);
             if (EnemyList.ToArray().Length == 0)
             {
                 TheresEnemiesOnSight = false;
@@ -62,15 +62,15 @@ public class LockOnController : MonoBehaviour
         }
     }
 
-    public EnemyMinionBehaviour CheckCloser()
+    public Collider CheckCloser()
     {
         ///TENHO DE COLOCAR UM INIMIGO DEFAULT
-        EnemyMinionBehaviour closerEnemy = EnemyList[0];
+        Collider closerEnemy = EnemyList[0];
         ///
         float distance = 1000;
 
 
-        foreach (EnemyMinionBehaviour enemy in EnemyList.ToArray())
+        foreach (Collider enemy in EnemyList.ToArray())
         {
             if (Vector3.Distance(PlayerController2.Transform.position, enemy.transform.position) < distance)
             {

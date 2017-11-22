@@ -29,14 +29,14 @@ public class GameManager : MonoBehaviour {
         
         LifePointList = new List<GameObject>();
 
-        LifePointArray = new GameObject[20];
+        LifePointArray = new GameObject[PlayerController2.MaxHealth];
         
         for (int i = 0; i < 20; i++)
         {
 
             LifePointArray[i] = Resources.Load<GameObject>("Prefabs/LifePoint");
 
-            LifePointList.Add(GameObject.Instantiate(LifePointArray[i], LifeBarPanel.transform));
+            LifePointList.Add(Instantiate(LifePointArray[i], LifeBarPanel.transform));
         }
 
     }
@@ -44,8 +44,8 @@ public class GameManager : MonoBehaviour {
     //TIRAR PONTOS DE VIDA NA BARRA, AO PLAYER
     public static void LifeBarDecrease(int damage, int totalDamageTaken)
     {
-        print(PlayerController.MaxHealth);
-        for (int i = PlayerController.MaxHealth-1 - totalDamageTaken; i > PlayerController.MaxHealth-1-totalDamageTaken - damage && i>=0; i--)
+        print(PlayerController2.MaxHealth);
+        for (int i = PlayerController2.MaxHealth-1 - totalDamageTaken; i > PlayerController2.MaxHealth-1-totalDamageTaken - damage && i>=0; i--)
         {
             LifePointList[i].GetComponent<CanvasGroup>().alpha = 0f;
         }

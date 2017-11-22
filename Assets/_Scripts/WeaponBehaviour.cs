@@ -6,12 +6,13 @@ public class WeaponBehaviour : MonoBehaviour {
 
     //private BoxCollider _boxCollider;
     private CapsuleCollider _capCollider;
-    public bool isAttacking;
+    //public bool isAttacking;
 
     private void Start()
     {
-        isAttacking = false;
+        //isAttacking = false;
         _capCollider = GetComponent<CapsuleCollider>();
+        DisableWeaponCollider();
     }
 
     public int DamageCalc()
@@ -23,12 +24,14 @@ public class WeaponBehaviour : MonoBehaviour {
 
     public void EnableWeaponCollider()
     {
-        isAttacking = true;
+       // isAttacking = true;
+        _capCollider.enabled = true;
         //_boxCollider.enabled = true; 
     }
     public void DisableWeaponCollider()
     {
-        isAttacking = false;
+       // isAttacking = false;
+        _capCollider.enabled = false;
        // _boxCollider.enabled = false;
     }
     //private void Update()

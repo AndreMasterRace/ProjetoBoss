@@ -13,13 +13,13 @@ public class EnemyMinionBehaviour : MonoBehaviour
     private Animator _animator;
     public Text DamageText;
     [HideInInspector]
-    public bool IsDead;
+    //public bool IsDead;
     public LevelEventsManager LevelEventsManager;
     public float Height;
 
     void Start()
     {
-        IsDead = false;
+        GetComponent<NPCStats>().IsDead = false;
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
@@ -48,13 +48,13 @@ public class EnemyMinionBehaviour : MonoBehaviour
         print(LevelEventsManager.DeadEnemies);
         LevelEventsManager.UpdateEvent();
 
-        IsDead = true;
+        GetComponent<NPCStats>().IsDead = true;
     }
 
     ///LEVAR DANO
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Weapon" && !IsDead)
+        if (other.tag == "Weapon" && !GetComponent<NPCStats>().IsDead)
         {
             damage = other.GetComponent<WeaponBehaviour>().DamageCalc();
             Health -= damage;
