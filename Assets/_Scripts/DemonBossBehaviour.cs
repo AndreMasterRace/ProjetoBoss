@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossBehaviour2 : MonoBehaviour
+public class DemonBossBehaviour : MonoBehaviour
 {
     private int damage;
     public int Health;
@@ -21,17 +21,12 @@ public class BossBehaviour2 : MonoBehaviour
     public int Attack1Treshold;
     private void Awake()
     {
-        BossEnabler.BossBehaviour2 = this;
+        BossEnabler.DemonBossBehaviour = this;
         _nAttack1 = 0;
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
-        //if (BossEnabler.IsEnabled)
-        //{
-        //    ///COMECA A SUSSECAO DE ATAQUES
-        //    StartCoroutine(Idle());
-        //    ///
-        //}
+      
     }
     private void Start()
     {
@@ -205,17 +200,17 @@ public class BossBehaviour2 : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator Attack4()
-    {
-        StartCoroutine(Attack2());
+    //public IEnumerator Attack4()
+    //{
+    //    StartCoroutine(Attack2());
 
-        yield return new WaitForSeconds(3f);
+    //    yield return new WaitForSeconds(3f);
 
-        Aura.transform.position = transform.position + new Vector3(30, 30, 30);
+    //    Aura.transform.position = transform.position + new Vector3(30, 30, 30);
 
-        StartCoroutine(Idle());
-        yield return null;
-    }
+    //    StartCoroutine(Idle());
+    //    yield return null;
+    //}
     ///ATAQUE COMBINADO TANTO COM AURA COMO OS OBSTACULOS
     public IEnumerator CombinedAttack()
     {
@@ -300,3 +295,4 @@ public class BossBehaviour2 : MonoBehaviour
     //}
 
 }
+

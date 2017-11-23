@@ -7,15 +7,18 @@ public class BossEnabler : MonoBehaviour {
 
     public static bool IsEnabled { get; set; }
     public static BossBehaviour2 BossBehaviour2 { get; set; }
+    public static DemonBossBehaviour DemonBossBehaviour { get; set; }
 
     public static void Disable()
     {
         IsEnabled = false;
-        BossBehaviour2.enabled = false;
+        //BossBehaviour2.enabled = false;
+        DemonBossBehaviour.enabled = false;
     }
     public static void Enable()
     {
         IsEnabled = true;
-        BossBehaviour2.enabled = true;
+        //BossBehaviour2.enabled = true;
+        DemonBossBehaviour.enabled = true;
     }
 }
