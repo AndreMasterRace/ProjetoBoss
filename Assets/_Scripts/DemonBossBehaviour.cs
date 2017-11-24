@@ -51,31 +51,33 @@ public class DemonBossBehaviour : MonoBehaviour
 
         if (Vector3.Distance(transform.position, PlayerController2.Transform.position) < 7.5f)
         {
-            if (rand >= 50)
-            {
-                if (Health > (_maxHealth / 2))
-                    StartCoroutine(AuraAttack());
-                else StartCoroutine(CombinedAttack());
-            }
-            else
-            {
-                StartCoroutine(LungeAttack());
-            }
+            _animator.SetTrigger("isAttacking2");
+            //if (rand >= 50)
+            //{
+                
+            //    //if (Health > (_maxHealth / 2))
+            //       // StartCoroutine(AuraAttack());
+            //    //else StartCoroutine(CombinedAttack());
+            //}
+            //else
+            //{
+            //    StartCoroutine(LungeAttack());
+            //}
 
         }
         else
         {
-
-            if (rand >= 50)
-            {
-                if (Health > (_maxHealth / 2))
-                    StartCoroutine(PillarsAttack());
-                else StartCoroutine(CombinedAttack());
-            }
-            else
-            {
-                StartCoroutine(LungeAttack());
-            }
+            _animator.SetTrigger("isAttacking1");
+            //if (rand >= 50)
+            //{
+            //    if (Health > (_maxHealth / 2))
+            //        StartCoroutine(PillarsAttack());
+            //    else StartCoroutine(CombinedAttack());
+            //}
+            //else
+            //{
+            //    StartCoroutine(LungeAttack());
+            //}
 
         }
     }
@@ -89,11 +91,11 @@ public class DemonBossBehaviour : MonoBehaviour
         //yield return new WaitForFixedUpdate();
         //yield return new WaitForEndOfFrame();<
         //--------------//
-        while (!_animator.IsInTransition(0))
-        {
+        //while (!_animator.IsInTransition(0))
+        //{
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
         //ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
 

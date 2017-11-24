@@ -15,7 +15,7 @@ public class EnemyMinionBehaviour : MonoBehaviour
     [HideInInspector]
     //public bool IsDead;
     public LevelEventsManager LevelEventsManager;
-    public float Height;
+
 
     void Start()
     {
@@ -49,6 +49,7 @@ public class EnemyMinionBehaviour : MonoBehaviour
         LevelEventsManager.UpdateEvent();
 
         GetComponent<NPCStats>().IsDead = true;
+        transform.position = new Vector3(40, 24, 230);
     }
 
     ///LEVAR DANO

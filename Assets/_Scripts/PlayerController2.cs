@@ -153,20 +153,20 @@ public class PlayerController2 : MonoBehaviour
         _animator.SetFloat("MoveVertical", _moveVertical);
         ///
         ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
-        if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
-        {
-            try
-            {
-                if (Focus.GetComponent<NPCStats>().IsDead)
-                {
-                    LockOut();
-                }
-            }
-            catch
-            {
-            }
+        //if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
+        //{
+        //    try
+        //    {
+        //        if (Focus.GetComponent<NPCStats>().IsDead)
+        //        {
+        //            LockOut();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //    }
 
-        }
+        //}
         ///
         //_animator.SetFloat("MoveSideways", _moveHorizontal);
         if (!_lockedOn)
@@ -376,6 +376,16 @@ public class PlayerController2 : MonoBehaviour
     public void DisableTrigger()
     {
         Weapon.DisableWeaponCollider();
+        try
+        {
+            if (Focus.GetComponent<NPCStats>().IsDead)
+            {
+                LockOut();
+            }
+        }
+        catch
+        {
+        }
     }
 
     public void TakeDamage(int damage)
