@@ -3,28 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyBehaviour : MonoBehaviour
+public class BossBehaviour2 : MonoBehaviour
 {
     private int damage;
     public int Health;
     private int _maxHealth;
     private Animator _animator;
     public Text DamageText;
+    public GameObject ObstacleRotater;
     public List<GameObject> Obstacles;
     public GameObject Aura;
     private int _damageAggregate;
-    private int _nAttack1; //NUMERO DE VEZES QUE USOU O ATAQUE 1
+    ///NUMERO DE VEZES QUE USOU O ATAQUE 1
+    private int _nAttack1;
+    ///
     public int LungeAttackDamage;
     public int Attack1Treshold;
-    public GameObject ObstacleRotater;
-
-    private void Start()
+    private void Awake()
     {
+        BossEnabler.BossBehaviour2 = this;
         _nAttack1 = 0;
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
-        StartCoroutine(Idle());
+        //if (BossEnabler.IsEnabled)
+        //{
+        //    ///COMECA A SUSSECAO DE ATAQUES
+        //    StartCoroutine(Idle());
+        //    ///
+        //}
+    }
+    private void Start()
+    {
+        if (BossEnabler.IsEnabled)
+        {
+            ///COMECA A SUSSECAO DE ATAQUES
+            StartCoroutine(Idle());
+            ///
+        }
     }
 
     public IEnumerator Idle()
@@ -36,9 +52,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void ChoseAttack()
     {
-        float rand = Random.Range(1, 101);
+        int rand = Random.Range(1, 101);
 
-        if (Vector3.Distance(transform.position, PlayerController.Transform.position) < 7.5f)
+        if (Vector3.Distance(transform.position, PlayerController2.Transform.position) < 7.5f)
         {
             if (rand >= 50)
             {
@@ -69,7 +85,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    //Pillars Attack
+    ///Pillars Attack
     public IEnumerator Attack1()
     {
         _animator.SetTrigger("isAttacking1");
@@ -86,7 +102,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         //ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
 
-        Vector3 position2D = new Vector3(PlayerController.Transform.position.x, 0.0f, PlayerController.Transform.position.z);
+        Vector3 position2D = new Vector3(PlayerController2.Transform.position.x, 0.0f, PlayerController2.Transform.position.z);
         float angle = Mathf.Deg2Rad * Vector3.Angle(position2D.normalized, Vector3.right);
         // print(Mathf.Rad2Deg * angle);
         float offsetX;
@@ -119,10 +135,12 @@ public class EnemyBehaviour : MonoBehaviour
         yield return null;
 
     }
+    /// 
 
     //OBSTACLE SHOWER
     public IEnumerator PillarsAttack()
     {
+        ObstacleRotater.transform.position = transform.position;
         StartCoroutine(Attack1());
         if (_nAttack1 >= Attack1Treshold)
         {
@@ -147,10 +165,11 @@ public class EnemyBehaviour : MonoBehaviour
         {
             yield return new WaitForSeconds(3.5f);
         }
-        foreach (GameObject obstacle in Obstacles)
-        {
-            obstacle.transform.position = transform.position + new Vector3(30, 30, 30);
-        }
+        ObstacleRotater.transform.position = transform.position + new Vector3(30, 30, 30);
+        //foreach (GameObject obstacle in Obstacles)
+        //{
+        //    //obstacle.transform.position = transform.position + new Vector3(30, 30, 30);
+        //}
         _nAttack1++;
         StartCoroutine(Idle());
         yield return null;
@@ -197,7 +216,7 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(Idle());
         yield return null;
     }
-
+    ///ATAQUE COMBINADO TANTO COM AURA COMO OS OBSTACULOS
     public IEnumerator CombinedAttack()
     {
         StartCoroutine(Attack2());
@@ -230,12 +249,10 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(Idle());
         yield return null;
     }
-
+    ///
     public IEnumerator LungeAttack()
     {
-        transform.LookAt(PlayerController.Transform.position);
-
-
+        transform.LookAt(PlayerController2.Transform.position);
         _animator.SetTrigger("isAttacking3");
 
         yield return new WaitForSeconds(1.5f);
@@ -271,15 +288,15 @@ public class EnemyBehaviour : MonoBehaviour
         if (other.tag == "Player")
         {
             damage = LungeAttackDamage;
-            other.GetComponent<PlayerController>().TakeDamage(damage);
+            other.GetComponent<PlayerController2>().TakeDamage(damage);
 
         }
     }
 
 
-    private void Update()
-    {
+    //private void Update()
+    //{
 
-    }
+    //}
 
 }

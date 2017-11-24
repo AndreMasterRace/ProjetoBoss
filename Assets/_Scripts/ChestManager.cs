@@ -45,6 +45,12 @@ public class ChestManager : MonoBehaviour
     {
         //_anim.SetBool("isOpen", true);
         _anim.Play("ChestOpen");
+        SendContents();
+    }
+
+    public void SendContents()
+    {
+        Inventory.hasBossKey = true;
     }
 
     private void Update()
@@ -67,12 +73,14 @@ public class ChestManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         PlayerEnabler.IsEnabled = false;
+        PlayerEnabler.Disable();
         //transform.position = new Vector3(128, 23.9f, 59);
         transform.position = SpawnPosition;
         appeared = true;
         yield return new WaitForSeconds(3.5f);
         appeared = false;
         PlayerEnabler.IsEnabled = true;
+        PlayerEnabler.Enable();
         yield return null;
     }
 

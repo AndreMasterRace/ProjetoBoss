@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8c7e622f1374a5c46aeb052512ecbbfe
+timeCreated: 1511283537
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: MightyContour
+  fontNames:
+  - MightyContour
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

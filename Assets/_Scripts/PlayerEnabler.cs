@@ -5,31 +5,16 @@ using UnityEngine;
 public class PlayerEnabler : MonoBehaviour {
 
     public static bool IsEnabled { get; set; }
+    public static PlayerController2 PlayerController2 { get; set; }
 
-    public void Disable()
+    public static void Disable()
     {
-        GetComponent<PlayerController2>().enabled = false;
+        PlayerController2.enabled = false;
+
     }
-    public void Enable()
+    public static void Enable()
     {
-        GetComponent<PlayerController2>().enabled = true;
+        PlayerController2.enabled = true;
     }
 
-    private void Update()
-    {
-        if(IsEnabled)
-        {
-            if(!GetComponent<PlayerController2>().enabled)
-            {
-                Enable();
-            }
-        }
-        else
-        {
-            if (GetComponent<PlayerController2>().enabled)
-            {
-                Disable();
-            }
-        }
-    }
 }

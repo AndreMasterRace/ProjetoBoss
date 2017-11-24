@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: ee127b0465a2c4946959e6dea96c9b04
+timeCreated: 1511283537
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: MightyShadow
+  fontNames:
+  - MightyShadow
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
