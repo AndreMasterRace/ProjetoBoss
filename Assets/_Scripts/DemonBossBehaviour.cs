@@ -279,7 +279,7 @@ public class DemonBossBehaviour : MonoBehaviour
             Health -= damage;
             StartCoroutine(ShowDamage());
             if (Health <= 0)
-                _animator.SetBool("isDead", true);
+                Die();
         }
 
         if (other.tag == "Player")
@@ -290,6 +290,10 @@ public class DemonBossBehaviour : MonoBehaviour
         }
     }
 
+    public void Die()
+    {
+        _animator.SetBool("isDead", true);
+    }
 
     //private void Update()
     //{

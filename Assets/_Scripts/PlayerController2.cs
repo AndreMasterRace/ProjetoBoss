@@ -103,6 +103,7 @@ public class PlayerController2 : MonoBehaviour
 
     void Update()
     {
+       // print(_moveVertical);
         ///QUANDO FOR PERMITIDO MEXER O PLAYER
         if (_moveAllowed)
         {
@@ -116,11 +117,16 @@ public class PlayerController2 : MonoBehaviour
             {
                 _animator.SetBool("isMoving", false);
             }
-            ///ATAQUE
-            if (Input.GetMouseButtonDown((int)KeyBindings.BasicAttackKey))
+            ///ATAQUE BASICO
+            if (Input.GetMouseButtonDown(KeyBindings.BasicAttackKey))
             {
-                _moveAllowed = false;
-                StartCoroutine(Attack());
+                StartCoroutine(Attack(0));
+            }
+            ///
+            ///ATAQUE PODEROSO
+            if (Input.GetMouseButtonDown(KeyBindings.PowerAttackKey))
+            {
+                StartCoroutine(Attack(1));
             }
             ///
             ///INTERAGIR COM OBJETOS
@@ -153,22 +159,7 @@ public class PlayerController2 : MonoBehaviour
         _animator.SetFloat("MoveVertical", _moveVertical);
         ///
         ///VER SE O INIMIGO MORREU E SE MORREU JA NAO ESTOU LOCK ON
-        //if (Input.GetMouseButtonUp((int)KeyBindings.BasicAttackKey))
-        //{
-        //    try
-        //    {
-        //        if (Focus.GetComponent<NPCStats>().IsDead)
-        //        {
-        //            LockOut();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //    }
-
-        //}
-        ///
-        //_animator.SetFloat("MoveSideways", _moveHorizontal);
+  
         if (!_lockedOn)
         {
             #region FREE MOVE
@@ -355,20 +346,49 @@ public class PlayerController2 : MonoBehaviour
         yield return null;
     }
     /// 
-    ///CORROTINA QUE CONTROLA O PRIMEIRO ATAQUE IMPLEMENTADO, IMPORTANTE TIRAR O PISCO DE CAN TRANSITION TO SELF NO ANIMATOR 
-    public IEnumerator Attack()
+    ///CORROTINA QUE CONTROLA O PRIMEIRO ATAQUE IMPLEMENTADO, IMPORTANTE TIRAR O PISCO DE CAN TRANSITION TO SELF NO ANIMATOR.
+    ///ACEITA TIPO DE ATAQUE COMO PARAMETRO
+    public IEnumerator Attack(int attackType)
     {
-        _animator.SetTrigger("AttackTrigger");
-
-        while (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        ///DURACAO DO ATAQUE
+        float animDuration = 0;
+        ///
+        switch (attackType)
         {
-            yield return null;
+            case 0: _animator.SetTrigger("BasicAttackTrigger");
+                animDuration = 0.864f; //1.13f;
+                break;
+            case 1:
+                _animator.SetTrigger("PowerAttackTrigger");
+                animDuration = 1.20f;
+                break;
+            default:
+                break;
         }
+        _moveAllowed = false;
+        
+
+        print(_moveAllowed);
+       // yield return new WaitForEndOfFrame();
+        StopMovement();
+
+        //while (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        //{
+        //    yield return null;
+        //}
+        yield return new WaitForSeconds(animDuration);
         _moveAllowed = true;
+        print(_moveAllowed);
         yield return null;
     }
     ///
-
+    ///PARAR O MOVIMENTO DO PLAYER
+    public void StopMovement()
+    {
+        _moveHorizontal = 0;
+        _moveVertical = 0;
+    }
+    ///
     public void EnableTrigger()
     {
         Weapon.EnableWeaponCollider();
