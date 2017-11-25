@@ -9,10 +9,10 @@ public class CombatGUIController : MonoBehaviour {
 
     private void Update()
     {
-        if(InCombat)
-        {
+        //if(InCombat)
+        //{
             transform.LookAt(PlayerController2.Transform);
-        }
+        //}
         
     }
 }
