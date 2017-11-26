@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class EnemyMinionBehaviour : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class EnemyMinionBehaviour : MonoBehaviour
     [HideInInspector]
     //public bool IsDead;
     public LevelEventsManager LevelEventsManager;
-
+   
 
     void Start()
     {
@@ -23,6 +24,8 @@ public class EnemyMinionBehaviour : MonoBehaviour
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
+
+        
     }
 
     private void Update()
@@ -53,6 +56,8 @@ public class EnemyMinionBehaviour : MonoBehaviour
     }
 
     ///LEVAR DANO
+    /// 
+    /// 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Weapon" && !GetComponent<NPCStats>().IsDead)
@@ -66,5 +71,5 @@ public class EnemyMinionBehaviour : MonoBehaviour
             }
         }
     }
-    ///
+    
 }

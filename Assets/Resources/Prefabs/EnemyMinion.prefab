@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: 95187802927207384}
   - component: {fileID: 114174411453648964}
   - component: {fileID: 114244737898409410}
+  - component: {fileID: 65396681947146426}
+  - component: {fileID: 114767628895661444}
   m_Layer: 0
   m_Name: EnemyMinion
   m_TagString: Enemy
@@ -41,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1630991274489378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 182.40121, y: 27.07, z: 76.14188}
+  m_LocalPosition: {x: 150.6, y: 30.76, z: 66.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,6 +105,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65396681947146426
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1630991274489378}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.3, y: 2.84, z: 1.72}
+  m_Center: {x: 2.77, y: 0, z: -0.00000008940697}
 --- !u!95 &95187802927207384
 Animator:
   serializedVersion: 3
@@ -134,7 +148,6 @@ MonoBehaviour:
   Health: 1
   DamageText: {fileID: 0}
   LevelEventsManager: {fileID: 0}
-  Height: 1
 --- !u!114 &114244737898409410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,6 +161,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Height: 1
   IsDead: 0
+--- !u!114 &114767628895661444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1630991274489378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbdcdb84097c92a4082bd26f631a1c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentState: 0
+  CanSeePlayer: 0
+  ViewAngle: 90
+  AttackDistance: 1
 --- !u!136 &136259175550733138
 CapsuleCollider:
   m_ObjectHideFlags: 1
