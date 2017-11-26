@@ -19,6 +19,7 @@ public class DemonBossBehaviour : MonoBehaviour
     ///
     public int LungeAttackDamage;
     public int Attack1Treshold;
+    public bool isMelee;
     private void Awake()
     {
         BossEnabler.DemonBossBehaviour = this;
@@ -26,10 +27,11 @@ public class DemonBossBehaviour : MonoBehaviour
         _damageAggregate = 0;
         _maxHealth = Health;
         _animator = GetComponent<Animator>();
-      
+
     }
     private void Start()
     {
+        isMelee = false;
         if (BossEnabler.IsEnabled)
         {
             ///COMECA A SUSSECAO DE ATAQUES
@@ -48,13 +50,16 @@ public class DemonBossBehaviour : MonoBehaviour
     public void ChoseAttack()
     {
         int rand = Random.Range(1, 101);
-
+        //Vector3 eyeLevelPlayerPosition = new Vector3(PlayerController2.Transform.position.x, 8, PlayerController2.Transform.position.z);
+        //transform.LookAt(eyeLevelPlayerPosition);
+        //transform.forward = PlayerController2.Transform.position;
+        transform.LookAt(PlayerController2.Transform);
         if (Vector3.Distance(transform.position, PlayerController2.Transform.position) < 7.5f)
         {
             _animator.SetTrigger("isAttacking2");
             //if (rand >= 50)
             //{
-                
+
             //    //if (Health > (_maxHealth / 2))
             //       // StartCoroutine(AuraAttack());
             //    //else StartCoroutine(CombinedAttack());
@@ -85,17 +90,7 @@ public class DemonBossBehaviour : MonoBehaviour
     ///Pillars Attack
     public IEnumerator Attack1()
     {
-        _animator.SetTrigger("isAttacking1");
-
-        //GREAT SOLUTION//
-        //yield return new WaitForFixedUpdate();
-        //yield return new WaitForEndOfFrame();<
-        //--------------//
-        //while (!_animator.IsInTransition(0))
-        //{
-
-        //    yield return null;
-        //}
+        //_animator.SetTrigger("isAttacking1");
 
         //ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
 
@@ -175,13 +170,13 @@ public class DemonBossBehaviour : MonoBehaviour
     //AURA ATTACK
     public IEnumerator Attack2()
     {
-        _animator.SetTrigger("isAttacking2");
+        //_animator.SetTrigger("isAttacking2");
 
-        while (!_animator.IsInTransition(0))
-        {
+        //while (!_animator.IsInTransition(0))
+        //{
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
         Aura.transform.position = transform.position;
         Aura.GetComponent<Animator>().SetTrigger("isActive");
@@ -250,7 +245,7 @@ public class DemonBossBehaviour : MonoBehaviour
     public IEnumerator LungeAttack()
     {
         transform.LookAt(PlayerController2.Transform.position);
-        _animator.SetTrigger("isAttacking3");
+       // _animator.SetTrigger("isAttacking3");
 
         yield return new WaitForSeconds(1.5f);
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
@@ -282,7 +277,7 @@ public class DemonBossBehaviour : MonoBehaviour
                 Die();
         }
 
-        if (other.tag == "Player")
+        if (isMelee && other.tag == "Player")
         {
             damage = LungeAttackDamage;
             other.GetComponent<PlayerController2>().TakeDamage(damage);
@@ -295,6 +290,14 @@ public class DemonBossBehaviour : MonoBehaviour
         _animator.SetBool("isDead", true);
     }
 
+    public void ActivateMelee()
+    {
+        isMelee = true;
+    }
+    public void DeactivateMelee()
+    {
+        isMelee = false;
+    }
     //private void Update()
     //{
 
