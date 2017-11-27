@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
         LevelEventsManager.DeadEnemies = 0;
         LevelEventsManager.AmountForEvent = 2;
         //BossEnabler.Disable();
-        BossEnabler.Enable();
+       BossEnabler.Enable();
     }
 
     private void OnTriggerStay(Collider other)

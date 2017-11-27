@@ -11,7 +11,7 @@ public class DemonBossBehaviour : MonoBehaviour
     private Animator _animator;
     public Text DamageText;
     public GameObject ObstacleRotater;
-    public List<GameObject> Obstacles;
+    public List<Transform> Obstacles;
     public GameObject Aura;
     private int _damageAggregate;
     ///NUMERO DE VEZES QUE USOU O ATAQUE 1
@@ -32,6 +32,10 @@ public class DemonBossBehaviour : MonoBehaviour
     private void Start()
     {
         isMelee = false;
+        for (int i = 1; i < 33; i++)
+        {
+            Obstacles.Add(ObstacleRotater.GetComponentsInChildren<Transform>()[i]);
+        }
         if (BossEnabler.IsEnabled)
         {
             ///COMECA A SUSSECAO DE ATAQUES
@@ -92,7 +96,7 @@ public class DemonBossBehaviour : MonoBehaviour
     {
         //_animator.SetTrigger("isAttacking1");
 
-        //ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
+        ///ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
 
         Vector3 position2D = new Vector3(PlayerController2.Transform.position.x, 0.0f, PlayerController2.Transform.position.z);
         float angle = Mathf.Deg2Rad * Vector3.Angle(position2D.normalized, Vector3.right);
@@ -103,26 +107,52 @@ public class DemonBossBehaviour : MonoBehaviour
         float distance;
         int i = 0;
 
-        //POR OBSTACULOS NA POSICAO
-        foreach (GameObject obstacle in Obstacles)
+        ///POR OBSTACULOS NA POSICAO
+        foreach (Transform obstacle in Obstacles)
         {
-            if (i % 2 == 0 && i != 0)
+            //if (i % 2 == 0 && i != 0)
+            //{
+            //    
+            //}
+           
+            distance = 0;
+           // distance = (i % 2 == 0) ? 3f : 5.5f;
+            switch (i)
             {
-                angle += Mathf.Deg2Rad * 45;
+                case 0:
+                    distance = 3.0f;
+                    break;
+                case 1:
+                    distance = 5.5f;
+                    break;
+                case 2:
+                    distance = 8.0f;
+                    break;
+                case 3:
+                    distance = 10.5f;
+                    break;
+                default:
+                    break;
             }
-            distance = (i % 2 == 0) ? 6f : 8.5f;
             offsetX = Mathf.Cos(angle) * distance;
             offsetY = 0;
             offsetZ = Mathf.Sin(angle) * distance;
-            //ISTO TEM QUE VER COM A FORMA COMO O UNITY CALCULA OS ANGULOS. O VALOR DESTES É SEMPRE POSITIVO
-            //iSSO FAZ COM QUE TENHA DE ARTIFICIALMENTE PASSAR O MEU offsetZ PARA NEGATIVO CASO O Z DA POSICAO SEJA NEGATIVO
+            ///ISTO TEM QUE VER COM A FORMA COMO O UNITY CALCULA OS ANGULOS. O VALOR DESTES É SEMPRE POSITIVO
+            ///iSSO FAZ COM QUE TENHA DE ARTIFICIALMENTE PASSAR O MEU offsetZ PARA NEGATIVO CASO O Z DA POSICAO SEJA NEGATIVO
             offsetZ = (position2D.z >= 0) ? offsetZ : -offsetZ;
 
-            obstacle.transform.position = transform.position + new Vector3(offsetX, offsetY, offsetZ);
+            obstacle.position = transform.position + new Vector3(offsetX, offsetY, offsetZ);
             obstacle.GetComponent<Animator>().SetTrigger("isActive");
 
             i++;
+            if (i > 3)
+            {
+                angle += Mathf.Deg2Rad * 45;
+                i = 0;
+            }
+           
         }
+        ///
 
         yield return null;
 
@@ -140,7 +170,7 @@ public class DemonBossBehaviour : MonoBehaviour
             float timer = 0;
             while (timer < 1)
             {
-                foreach (GameObject obstacle in Obstacles)
+                foreach (Transform obstacle in Obstacles)
                 {
                     Quaternion diseredRot = Quaternion.Euler(0, ObstacleRotater.transform.eulerAngles.y + 5, 0);
                     ObstacleRotater.transform.rotation = Quaternion.Lerp(ObstacleRotater.transform.rotation, diseredRot, 1 * Time.fixedDeltaTime);
@@ -197,17 +227,7 @@ public class DemonBossBehaviour : MonoBehaviour
         yield return null;
     }
 
-    //public IEnumerator Attack4()
-    //{
-    //    StartCoroutine(Attack2());
 
-    //    yield return new WaitForSeconds(3f);
-
-    //    Aura.transform.position = transform.position + new Vector3(30, 30, 30);
-
-    //    StartCoroutine(Idle());
-    //    yield return null;
-    //}
     ///ATAQUE COMBINADO TANTO COM AURA COMO OS OBSTACULOS
     public IEnumerator CombinedAttack()
     {
@@ -219,7 +239,7 @@ public class DemonBossBehaviour : MonoBehaviour
         float timer = 0;
         while (timer < 1)
         {
-            foreach (GameObject obstacle in Obstacles)
+            foreach (Transform obstacle in Obstacles)
             {
                 Quaternion diseredRot = Quaternion.Euler(0, ObstacleRotater.transform.eulerAngles.y + 5, 0);
                 ObstacleRotater.transform.rotation = Quaternion.Lerp(ObstacleRotater.transform.rotation, diseredRot, 1 * Time.fixedDeltaTime);
@@ -231,9 +251,9 @@ public class DemonBossBehaviour : MonoBehaviour
         }
         yield return new WaitForSeconds(2.0f);
 
-        foreach (GameObject obstacle in Obstacles)
+        foreach (Transform obstacle in Obstacles)
         {
-            obstacle.transform.position = transform.position + new Vector3(30, 30, 30);
+            obstacle.position = transform.position + new Vector3(30, 30, 30);
         }
         yield return new WaitForSeconds(1.0f);
         Aura.transform.position = transform.position + new Vector3(30, 30, 30);
