@@ -424,6 +424,7 @@ public class PlayerController2 : MonoBehaviour
     public void Die()
     {
         _animator.SetBool("isDead", true);
+        StopMovement();
         GameManager.GameOverScreen();
         _moveAllowed = false;
     }
