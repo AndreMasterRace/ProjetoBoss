@@ -16,5 +16,6 @@ public class KeyBindings : MonoBehaviour {
     //
     //RATO
     public static int BasicAttackKey = 0;
+    public static int PowerAttackKey = 1;
     //
 }
