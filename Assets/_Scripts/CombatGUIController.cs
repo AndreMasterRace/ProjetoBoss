@@ -11,7 +11,7 @@ public class CombatGUIController : MonoBehaviour {
     {
         //if(InCombat)
         //{
-            transform.LookAt(PlayerController2.Transform);
+            //transform.LookAt(PlayerController2.Transform);
         //}
         
     }

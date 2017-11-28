@@ -98,6 +98,8 @@ public class DemonBossBehaviour : MonoBehaviour
 
         ///ISTO É BASICAMENTO O SENO E COSSENO, SE A CADA POSICAO EU PUSER offsetZ = AO SEN(angle) e o offsetX = AO COS(angle) TENHO A POSICAO
 
+
+
         Vector3 position2D = new Vector3(PlayerController2.Transform.position.x, 0.0f, PlayerController2.Transform.position.z);
         float angle = Mathf.Deg2Rad * Vector3.Angle(position2D.normalized, Vector3.right);
         // print(Mathf.Rad2Deg * angle);
@@ -110,11 +112,12 @@ public class DemonBossBehaviour : MonoBehaviour
         ///POR OBSTACULOS NA POSICAO
         foreach (Transform obstacle in Obstacles)
         {
+            obstacle.GetComponent<ParticleSystem>().Stop();
             //if (i % 2 == 0 && i != 0)
             //{
             //    
             //}
-           
+
             distance = 0;
            // distance = (i % 2 == 0) ? 3f : 5.5f;
             switch (i)
@@ -142,7 +145,8 @@ public class DemonBossBehaviour : MonoBehaviour
             offsetZ = (position2D.z >= 0) ? offsetZ : -offsetZ;
 
             obstacle.position = transform.position + new Vector3(offsetX, offsetY, offsetZ);
-            obstacle.GetComponent<Animator>().SetTrigger("isActive");
+            //obstacle.GetComponent<Animator>().SetTrigger("isActive");
+            obstacle.GetComponent<ParticleSystem>().Play();
 
             i++;
             if (i > 3)
@@ -150,9 +154,10 @@ public class DemonBossBehaviour : MonoBehaviour
                 angle += Mathf.Deg2Rad * 45;
                 i = 0;
             }
-           
+
         }
         ///
+
 
         yield return null;
 
@@ -164,9 +169,14 @@ public class DemonBossBehaviour : MonoBehaviour
     {
         ObstacleRotater.transform.position = transform.position;
         StartCoroutine(Attack1());
+        yield return new WaitForSeconds(0.5f);
+        foreach (Transform obstacle in Obstacles)
+        {
+            obstacle.GetComponent<Collider>().enabled = true;
+        }
+
         if (_nAttack1 >= Attack1Treshold)
         {
-            yield return new WaitForSeconds(0.5f);
             float timer = 0;
             while (timer < 1)
             {
@@ -185,9 +195,14 @@ public class DemonBossBehaviour : MonoBehaviour
 
         else
         {
-            yield return new WaitForSeconds(3.5f);
+            yield return new WaitForSeconds(3.0f);
         }
         ObstacleRotater.transform.position = transform.position + new Vector3(30, 30, 30);
+        foreach (Transform obstacle in Obstacles)
+        {
+            obstacle.GetComponent<Collider>().enabled = false;
+            obstacle.GetComponent<ParticleSystem>().Stop();
+        }
         //foreach (GameObject obstacle in Obstacles)
         //{
         //    //obstacle.transform.position = transform.position + new Vector3(30, 30, 30);
